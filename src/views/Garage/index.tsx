@@ -1,5 +1,8 @@
+import { FC, useState } from 'react';
 import GarageList from '../../components/GarageList';
 
-export default function Garage() {
+const Garage: FC = () => {
     return <GarageList />;
-}
+};
+
+export default Garage;
