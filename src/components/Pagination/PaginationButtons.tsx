@@ -7,12 +7,11 @@ export function PaginationButtons({
     totalItems: number;
     itemsPerPage: number;
 }) {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
     return (
         <div>
-            {Array.from(
-                { length: Math.ceil(totalItems / itemsPerPage) },
-                (_, i) => i + 1
-            ).map((page) => (
+            {new Array(totalPages).map((_, page) => (
                 <button key={page} onClick={() => console.log(page)}>
                     {page} {page === currentPage && '(current)'}
                 </button>
