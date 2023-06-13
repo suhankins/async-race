@@ -25,4 +25,6 @@ function mapDispatchToProps(dispatch: AppDispatch) {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-export const GarageList = connector(Pagination<IGarageEntry>);
+const GarageList = connector(Pagination<IGarageEntry>);
+
+export default GarageList;
