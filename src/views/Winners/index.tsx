@@ -1,7 +1,7 @@
-export function Winners() {
-    return (
-        <div>
-            <h1>Winners TODO: Implement</h1>
-        </div>
-    );
-}
+import { FC } from 'react';
+
+const Winners: FC = () => {
+    return <h1>Winners</h1>;
+};
+
+export default Winners;
