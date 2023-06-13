@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Pagination from '../Pagination';
+import Pagination from '../Pagination/Pagination';
 import { AppDispatch, RootState } from '../../store/rootStore';
 import {
     IGarageEntry,
