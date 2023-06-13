@@ -1,7 +1,7 @@
 import './App.css';
-import ViewSwitch from './components/ViewSwitch';
+import ViewSwitch from './components/ViewSwitch/ViewSwitch';
 import Garage from './views/Garage/Garage';
-import Winners from './views/Winners/WInners';
+import Winners from './views/Winners/Winners';
 
 function App() {
     return (
