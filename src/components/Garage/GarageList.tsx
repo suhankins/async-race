@@ -6,7 +6,6 @@ import {
     getGarageFetch,
 } from '../../store/features/garage/garageSlice';
 import GarageItem from './GarageItem';
-import { bindActionCreators } from '@reduxjs/toolkit';
 
 const mapStateToProps = (state: RootState) => ({
     items: state.garage.cars,
@@ -26,4 +25,4 @@ function mapDispatchToProps(dispatch: AppDispatch) {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-export default connector(Pagination<IGarageEntry>);
+export const GarageList = connector(Pagination<IGarageEntry>);

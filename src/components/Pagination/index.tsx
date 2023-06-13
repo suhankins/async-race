@@ -20,7 +20,7 @@ export default function Pagination<T extends IItemWithId>({
 }: PaginationProps<T>) {
     useEffect(() => {
         getGarageFetch();
-    }, [currentPage]);
+    }, [currentPage, getGarageFetch]);
 
     return (
         <div>
