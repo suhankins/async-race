@@ -7,10 +7,12 @@ import { IItemWithId } from '../../models/IItemWithId';
 interface PaginationProps<T extends IItemWithId>
     extends ListProps<T>,
         IStateWithPages {
+    loading: boolean;
     getGarageFetch: () => void;
 }
 
 export default function Pagination<T extends IItemWithId>({
+    loading,
     items,
     renderItem,
     currentPage,
@@ -21,6 +23,8 @@ export default function Pagination<T extends IItemWithId>({
     useEffect(() => {
         getGarageFetch();
     }, [currentPage, getGarageFetch]);
+
+    if (loading) return <p>Loading...</p>;
 
     return (
         <div>

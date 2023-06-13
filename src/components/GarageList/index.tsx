@@ -8,6 +8,7 @@ import {
 import GarageItem from './GarageItem';
 
 const mapStateToProps = (state: RootState) => ({
+    loading: state.garage.loading,
     items: state.garage.cars,
     renderItem: GarageItem,
     currentPage: state.garage.currentPage,

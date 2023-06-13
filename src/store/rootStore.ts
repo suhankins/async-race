@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import garageSlice from './features/garage/garageSlice';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './rootSaga';
+import viewsSlice from './features/views/viewsSlice';
 
 const saga = createSagaMiddleware();
 
@@ -10,6 +11,7 @@ export const store = configureStore({
     reducer: {
         garage: garageSlice,
         //winners: winnersSlice,
+        views: viewsSlice,
     },
 });
 
