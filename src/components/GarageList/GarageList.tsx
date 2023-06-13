@@ -1,31 +1,35 @@
-import { connect } from 'react-redux';
+import { FC, useCallback } from 'react';
 import Pagination from '../Pagination/Pagination';
-import { AppDispatch, RootState } from '../../store/rootStore';
-import {
-    IGarageEntry,
-    getGarageFetch,
-} from '../../store/features/garage/garageSlice';
+import { useAppSelector } from '../../store/hooks/useAppSelector';
 import GarageItem from './GarageItem';
+import { useAppDispatch } from '../../store/hooks/useAppDispatch';
+import { getGarageFetch } from '../../store/features/garage/garageSlice';
 
-const mapStateToProps = (state: RootState) => ({
-    loading: state.garage.loading,
-    items: state.garage.cars,
-    renderItem: GarageItem,
-    currentPage: state.garage.currentPage,
-    totalItems: state.garage.totalItems,
-    itemsPerPage: state.garage.itemsPerPage,
-});
+const GarageList: FC = () => {
+    const {
+        cars: items,
+        loading,
+        currentPage,
+        totalItems,
+        itemsPerPage,
+    } = useAppSelector((state) => state.garage);
+    const dispatch = useAppDispatch();
 
-function mapDispatchToProps(dispatch: AppDispatch) {
-    return {
-        getGarageFetch: () => {
-            dispatch(getGarageFetch());
-        },
-    };
-}
+    const getGarageFetchDispatch = useCallback(() => {
+        dispatch(getGarageFetch());
+    }, [dispatch]);
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-const GarageList = connector(Pagination<IGarageEntry>);
+    return (
+        <Pagination
+            getGarageFetch={getGarageFetchDispatch}
+            items={items}
+            loading={loading}
+            currentPage={currentPage}
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            renderItem={GarageItem}
+        />
+    );
+};
 
 export default GarageList;
