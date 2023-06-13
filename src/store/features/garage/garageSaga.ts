@@ -1,4 +1,4 @@
-import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import {
     getGarageFailure,
     getGarageSuccess,
@@ -31,5 +31,5 @@ function* workGetGarageFetch() {
 }
 
 export function* garageSaga() {
-    yield takeEvery('garage/getGarageFetch', workGetGarageFetch);
+    yield takeLatest('garage/getGarageFetch', workGetGarageFetch);
 }
