@@ -7,10 +7,7 @@ import {
 import { ICar } from '../../../models/ICar';
 import { RootState } from '../../rootStore';
 
-function* workGetGarageFetch(action: {
-    type: string;
-    payload: number | undefined;
-}) {
+function* workGetGarageFetch() {
     try {
         const state: {
             currentPage: number;
