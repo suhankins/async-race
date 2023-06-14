@@ -5,6 +5,7 @@ import {
     updateCarFetch,
 } from '../../store/features/garage/garageSlice';
 import { useAppDispatch } from '../../store/hooks/useAppDispatch';
+import { RGBPallete } from './RGBPallete/RGBPallete';
 
 const GarageItem: FC<IGarageEntry> = ({ name, color, id, loading }) => {
     const dispatch = useAppDispatch();
@@ -29,15 +30,7 @@ const GarageItem: FC<IGarageEntry> = ({ name, color, id, loading }) => {
                     );
                 }}
             />
-            <input
-                defaultValue={color}
-                placeholder="Car color in hex"
-                onBlur={(e) => {
-                    dispatch(
-                        updateCarFetch({ id, name, color: e.target.value })
-                    );
-                }}
-            />
+            <RGBPallete />
         </div>
     );
 };
