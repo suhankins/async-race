@@ -2,6 +2,7 @@ import { FC } from 'react';
 import {
     IGarageEntry,
     deleteCarFetch,
+    updateCarFetch,
 } from '../../store/features/garage/garageSlice';
 import { useAppDispatch } from '../../store/hooks/useAppDispatch';
 
@@ -19,8 +20,24 @@ const GarageItem: FC<IGarageEntry> = ({ name, color, id, loading }) => {
             >
                 Delete
             </button>
-            <h1>{name}</h1>
-            <p>{color}</p>
+            <input
+                defaultValue={name}
+                placeholder="Car name"
+                onBlur={(e) => {
+                    dispatch(
+                        updateCarFetch({ id, name: e.target.value, color })
+                    );
+                }}
+            />
+            <input
+                defaultValue={color}
+                placeholder="Car color in hex"
+                onBlur={(e) => {
+                    dispatch(
+                        updateCarFetch({ id, name, color: e.target.value })
+                    );
+                }}
+            />
         </div>
     );
 };

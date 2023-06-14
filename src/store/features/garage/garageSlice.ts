@@ -12,7 +12,7 @@ export interface IGarageEntry extends ICar {
     position: number;
 }
 
-interface IGarageState extends IStateWithPages {
+export interface IGarageState extends IStateWithPages {
     loading: boolean;
     cars: IGarageEntry[];
 }
@@ -44,12 +44,36 @@ const garageSlice = createSlice({
         getGarageFailure(state) {
             state.loading = false;
         },
+        getCarFetch(state, action: PayloadAction<number>) {
+            const car = state.cars.find((car) => car.id === action.payload);
+            if (car) car.loading = true;
+        },
+        getCarSuccess(state, action: PayloadAction<ICar>) {
+            const car = state.cars.find((car) => car.id === action.payload.id);
+            if (car) {
+                car.loading = false;
+                car.name = action.payload.name;
+                car.color = action.payload.color;
+            }
+        },
+        getCarFailure(state, action: PayloadAction<number>) {
+            const car = state.cars.find((car) => car.id === action.payload);
+            if (car) car.loading = false;
+        },
         deleteCarFetch(state, action: PayloadAction<number>) {
             const car = state.cars.find((car) => car.id === action.payload);
             if (car) car.loading = true;
         },
-        deleteCarSuccess() {},
         deleteCarFailure(state, action: PayloadAction<number>) {
+            const car = state.cars.find((car) => car.id === action.payload);
+            if (car) car.loading = false;
+        },
+        updateCarFetch(state, action: PayloadAction<ICar>) {
+            const car = state.cars.find((car) => car.id === action.payload.id);
+            if (car) car.loading = true;
+        },
+        updateCarSuccess() {},
+        updateCarFailure(state, action: PayloadAction<number>) {
             const car = state.cars.find((car) => car.id === action.payload);
             if (car) car.loading = false;
         },
@@ -62,9 +86,15 @@ const garageSlice = createSlice({
 export const {
     deleteCarFailure,
     deleteCarFetch,
+    updateCarFailure,
+    updateCarFetch,
+    updateCarSuccess,
     getGarageFailure,
     getGarageFetch,
     getGarageSuccess,
+    getCarFailure,
+    getCarFetch,
+    getCarSuccess,
     setTotalItems,
 } = garageSlice.actions;
 export default garageSlice.reducer;
