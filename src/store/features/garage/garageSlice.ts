@@ -25,6 +25,11 @@ const initialState: IGarageState = {
     cars: [],
 };
 
+const setCarLoading = (state: IGarageState, id: number, loading: boolean) => {
+    const car = state.cars.find((car) => car.id === id);
+    if (car) car.loading = loading;
+};
+
 const garageSlice = createSlice({
     name: 'garage',
     initialState,
@@ -45,8 +50,7 @@ const garageSlice = createSlice({
             state.loading = false;
         },
         getCarFetch(state, action: PayloadAction<number>) {
-            const car = state.cars.find((car) => car.id === action.payload);
-            if (car) car.loading = true;
+            setCarLoading(state, action.payload, true);
         },
         getCarSuccess(state, action: PayloadAction<ICar>) {
             const car = state.cars.find((car) => car.id === action.payload.id);
@@ -57,25 +61,20 @@ const garageSlice = createSlice({
             }
         },
         getCarFailure(state, action: PayloadAction<number>) {
-            const car = state.cars.find((car) => car.id === action.payload);
-            if (car) car.loading = false;
+            setCarLoading(state, action.payload, false);
         },
         deleteCarFetch(state, action: PayloadAction<number>) {
-            const car = state.cars.find((car) => car.id === action.payload);
-            if (car) car.loading = true;
+            setCarLoading(state, action.payload, true);
         },
         deleteCarFailure(state, action: PayloadAction<number>) {
-            const car = state.cars.find((car) => car.id === action.payload);
-            if (car) car.loading = false;
+            setCarLoading(state, action.payload, false);
         },
         updateCarFetch(state, action: PayloadAction<ICar>) {
-            const car = state.cars.find((car) => car.id === action.payload.id);
-            if (car) car.loading = true;
+            setCarLoading(state, action.payload.id, true);
         },
         updateCarSuccess() {},
         updateCarFailure(state, action: PayloadAction<number>) {
-            const car = state.cars.find((car) => car.id === action.payload);
-            if (car) car.loading = false;
+            setCarLoading(state, action.payload, false);
         },
         setTotalItems(state, action: PayloadAction<number>) {
             state.totalItems = action.payload;
