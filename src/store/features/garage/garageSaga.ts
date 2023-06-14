@@ -28,7 +28,7 @@ function* workGetGarageFetch() {
         );
         yield put(getGarageSuccess(garageJson));
     } catch (e) {
-        console.log(e);
+        console.error(e);
         yield put(getGarageFailure());
     }
 }
@@ -43,7 +43,7 @@ function* workDeleteCarFetch(action: { payload: number }) {
         if (!deleteRequest.ok) throw new Error('Failed to delete car');
         yield put(getGarageFetch());
     } catch (e) {
-        console.log(e);
+        console.error(e);
         yield put(deleteCarFailure(action.payload));
     }
 }
