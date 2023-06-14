@@ -1,6 +1,9 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 import {
+    deleteCarFailure,
+    deleteCarFetch,
     getGarageFailure,
+    getGarageFetch,
     getGarageSuccess,
     setTotalItems,
 } from './garageSlice';
@@ -30,6 +33,22 @@ function* workGetGarageFetch() {
     }
 }
 
+function* workDeleteCarFetch(action: { payload: number }) {
+    try {
+        const deleteRequest: Response = yield call(() =>
+            fetch(`http://localhost:3000/garage/${action.payload}`, {
+                method: 'DELETE',
+            })
+        );
+        if (!deleteRequest.ok) throw new Error('Failed to delete car');
+        yield put(getGarageFetch());
+    } catch (e) {
+        console.log(e);
+        yield put(deleteCarFailure(action.payload));
+    }
+}
+
 export function* garageSaga() {
-    yield takeLatest('garage/getGarageFetch', workGetGarageFetch);
+    yield takeLatest(getGarageFetch, workGetGarageFetch);
+    yield takeEvery(deleteCarFetch, workDeleteCarFetch);
 }

@@ -1,12 +1,26 @@
 import { FC } from 'react';
-import { IGarageEntry } from '../../store/features/garage/garageSlice';
+import {
+    IGarageEntry,
+    deleteCarFetch,
+} from '../../store/features/garage/garageSlice';
+import { useAppDispatch } from '../../store/hooks/useAppDispatch';
 
-const GarageItem: FC<IGarageEntry> = (garageEntry) => {
-    // TODO: Implement
+const GarageItem: FC<IGarageEntry> = ({ name, color, id, loading }) => {
+    const dispatch = useAppDispatch();
+
+    if (loading) return <p>Loading...</p>;
+
     return (
         <div>
-            <h1>{garageEntry.name}</h1>
-            <p>{garageEntry.color}</p>
+            <button
+                onClick={() => {
+                    dispatch(deleteCarFetch(id));
+                }}
+            >
+                Delete
+            </button>
+            <h1>{name}</h1>
+            <p>{color}</p>
         </div>
     );
 };

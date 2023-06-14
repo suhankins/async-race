@@ -4,6 +4,7 @@ import { ICar } from '../../../models/ICar';
 
 export interface IGarageEntry extends ICar {
     isEngineStarted: boolean;
+    loading: boolean;
     /**
      * Position on the track.
      * Should be a number between 0 and 1.
@@ -35,12 +36,22 @@ const garageSlice = createSlice({
             state.loading = false;
             state.cars = action.payload.map((car) => ({
                 ...car,
+                loading: false,
                 isEngineStarted: false,
                 position: 0,
             }));
         },
         getGarageFailure(state) {
             state.loading = false;
+        },
+        deleteCarFetch(state, action: PayloadAction<number>) {
+            const car = state.cars.find((car) => car.id === action.payload);
+            if (car) car.loading = true;
+        },
+        deleteCarSuccess() {},
+        deleteCarFailure(state, action: PayloadAction<number>) {
+            const car = state.cars.find((car) => car.id === action.payload);
+            if (car) car.loading = false;
         },
         setTotalItems(state, action: PayloadAction<number>) {
             state.totalItems = action.payload;
@@ -49,6 +60,8 @@ const garageSlice = createSlice({
 });
 
 export const {
+    deleteCarFailure,
+    deleteCarFetch,
     getGarageFailure,
     getGarageFetch,
     getGarageSuccess,
