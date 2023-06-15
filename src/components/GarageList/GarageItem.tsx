@@ -30,7 +30,7 @@ const GarageItem: FC<IGarageEntry> = ({ name, color, id, loading }) => {
                     );
                 }}
             />
-            <RGBPallete />
+            <RGBPallete defaultValue={color} />
         </div>
     );
 };
