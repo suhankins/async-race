@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { call, put } from 'redux-saga/effects';
-import { getGarageFetch, deleteCarFailure } from '../garageSlice';
+import { deleteCarFailure, deleteCarSuccess } from '../garageSlice';
 
 export function* workDeleteCarFetch(action: PayloadAction<number>) {
     try {
@@ -10,7 +10,7 @@ export function* workDeleteCarFetch(action: PayloadAction<number>) {
             })
         );
         if (!deleteRequest.ok) throw new Error('Failed to delete car');
-        yield put(getGarageFetch());
+        yield put(deleteCarSuccess());
     } catch (e) {
         console.error(e);
         yield put(deleteCarFailure(action.payload));

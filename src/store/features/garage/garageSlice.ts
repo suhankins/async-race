@@ -34,6 +34,7 @@ const garageSlice = createSlice({
     name: 'garage',
     initialState,
     reducers: {
+        // TODO: Refactor
         getGarageFetch(state) {
             state.loading = true;
         },
@@ -69,12 +70,22 @@ const garageSlice = createSlice({
         deleteCarFailure(state, action: PayloadAction<number>) {
             setCarLoading(state, action.payload, false);
         },
+        deleteCarSuccess(state) {},
         updateCarFetch(state, action: PayloadAction<ICar>) {
             setCarLoading(state, action.payload.id, true);
         },
-        updateCarSuccess() {},
+        updateCarSuccess(state, action: PayloadAction<number>) {},
         updateCarFailure(state, action: PayloadAction<number>) {
             setCarLoading(state, action.payload, false);
+        },
+        createCarFetch(state, action: PayloadAction<ICar>) {
+            state.loading = true;
+        },
+        createCarSuccess(state) {
+            state.loading = false;
+        },
+        createCarFailure(state) {
+            state.loading = false;
         },
         setTotalItems(state, action: PayloadAction<number>) {
             state.totalItems = action.payload;
@@ -83,8 +94,12 @@ const garageSlice = createSlice({
 });
 
 export const {
+    createCarFetch,
+    createCarSuccess,
+    createCarFailure,
     deleteCarFailure,
     deleteCarFetch,
+    deleteCarSuccess,
     updateCarFailure,
     updateCarFetch,
     updateCarSuccess,
