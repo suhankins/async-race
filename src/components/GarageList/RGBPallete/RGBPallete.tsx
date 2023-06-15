@@ -1,18 +1,30 @@
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import styles from './RGBPallete.module.scss';
 import { useClickPosition } from './hooks/useClickPosition';
-import { hslToHex } from './hslToHex';
+import { hexToHsv, hsvToHex } from './hsvToHex';
 
 export function RGBPallete({ defaultValue }: { defaultValue?: string }) {
-    const huePickerRef = useRef<HTMLDivElement>(null);
-    const saturationLightnessPickerRef = useRef<HTMLDivElement>(null);
-
-    const [{ x: hue }] = useClickPosition(huePickerRef);
-    const [{ x: saturationPosition, y: lightnessPosition }] = useClickPosition(
-        saturationLightnessPickerRef
+    const defaultHsv = useMemo(
+        () =>
+            defaultValue
+                ? hexToHsv(defaultValue)
+                : { hue: 0, saturation: 1, value: 1 },
+        [defaultValue]
     );
-    const saturation = saturationPosition;
-    const lightness = 1 - lightnessPosition;
+
+    const huePickerRef = useRef<HTMLDivElement>(null);
+    const [{ x: hue }] = useClickPosition(huePickerRef, {
+        x: defaultHsv.hue,
+        y: 0,
+    });
+
+    const saturationValuePickerRef = useRef<HTMLDivElement>(null);
+    const [{ x: saturation, y: valuePosition }] = useClickPosition(
+        saturationValuePickerRef,
+        { x: defaultHsv.saturation, y: 1 - defaultHsv.value }
+    );
+
+    const value = 1 - valuePosition;
 
     return (
         <div className={styles.picker}>
@@ -21,15 +33,15 @@ export function RGBPallete({ defaultValue }: { defaultValue?: string }) {
                 style={{
                     backgroundColor: `hsl(${hue * 360}, 100%, 50%)`,
                 }}
-                ref={saturationLightnessPickerRef}
+                ref={saturationValuePickerRef}
             >
                 <div className={styles.saturationBackground} />
                 <div className={styles.lightnessBackground} />
                 <div
                     className={styles.pointer}
                     style={{
-                        left: `${saturationPosition * 100}%`,
-                        top: `${lightnessPosition * 100}%`,
+                        left: `${saturation * 100}%`,
+                        top: `${valuePosition * 100}%`,
                     }}
                 />
             </div>
@@ -41,30 +53,13 @@ export function RGBPallete({ defaultValue }: { defaultValue?: string }) {
                     }}
                 />
             </div>
-            <p
+            <div
                 style={{
-                    color: `hsl(${hue * 360}, ${saturation * 100}%, ${
-                        lightness * 100
-                    }%)`,
+                    color: hsvToHex(hue, saturation, value),
                 }}
             >
-                <p
-                    style={{
-                        color: `hsl(${hue * 360}, ${saturation * 100}%, ${
-                            lightness * 100
-                        }%)`,
-                    }}
-                >
-                    {hue * 360}, {saturation * 100}%, {lightness * 100}%
-                </p>
-                <p
-                    style={{
-                        color: hslToHex(hue, saturation, lightness),
-                    }}
-                >
-                    {hslToHex(hue, saturation, lightness)}
-                </p>
-            </p>
+                {hsvToHex(hue, saturation, value)}
+            </div>
         </div>
     );
 }

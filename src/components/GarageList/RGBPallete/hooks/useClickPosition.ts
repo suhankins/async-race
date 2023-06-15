@@ -42,12 +42,12 @@ export function useClickPosition(
             mouseDown = false;
         };
         ref.current?.addEventListener('mousedown', handleMouseDown);
-        ref.current?.addEventListener('mousemove', handleMouseMove);
-        ref.current?.addEventListener('mouseup', handleMouseUp);
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
         return () => {
             ref.current?.removeEventListener('mousedown', handleMouseDown);
-            ref.current?.removeEventListener('mousemove', handleMouseMove);
-            ref.current?.removeEventListener('mouseup', handleMouseUp);
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [ref]);
     return [position] as const;
