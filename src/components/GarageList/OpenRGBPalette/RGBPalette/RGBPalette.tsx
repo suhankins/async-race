@@ -1,9 +1,20 @@
-import { useMemo, useRef } from 'react';
-import styles from './RGBPallete.module.scss';
+import { HTMLAttributes, useMemo, useRef } from 'react';
+import styles from './RGBPalette.module.scss';
 import { useClickPosition } from './hooks/useClickPosition';
 import { hexToHsv, hsvToHex } from './hsvToHex';
 
-export function RGBPallete({ defaultValue }: { defaultValue?: string }) {
+interface RGBPaletteProps extends HTMLAttributes<HTMLDivElement> {
+    defaultValue?: string;
+    updateColor: (value: string) => void;
+    className?: string;
+}
+
+export function RGBPalette({
+    defaultValue,
+    updateColor,
+    className,
+    ...props
+}: RGBPaletteProps) {
     const defaultHsv = useMemo(
         () =>
             defaultValue
@@ -27,7 +38,7 @@ export function RGBPallete({ defaultValue }: { defaultValue?: string }) {
     const value = 1 - valuePosition;
 
     return (
-        <div className={styles.picker}>
+        <div className={`${styles.picker} ${className ?? ''}`} {...props}>
             <div
                 className={styles.saturationLightnessPicker}
                 style={{
@@ -53,13 +64,12 @@ export function RGBPallete({ defaultValue }: { defaultValue?: string }) {
                     }}
                 />
             </div>
-            <div
-                style={{
-                    color: hsvToHex(hue, saturation, value),
-                }}
+            <button
+                type="button"
+                onClick={() => updateColor(hsvToHex(hue, saturation, value))}
             >
-                {hsvToHex(hue, saturation, value)}
-            </div>
+                Submit
+            </button>
         </div>
     );
 }

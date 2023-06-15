@@ -5,7 +5,7 @@ import {
     updateCarFetch,
 } from '../../store/features/garage/garageSlice';
 import { useAppDispatch } from '../../store/hooks/useAppDispatch';
-import { RGBPallete } from './RGBPallete/RGBPallete';
+import { OpenPaletteButton } from './OpenRGBPalette/OpenPaletteButton';
 
 const GarageItem: FC<IGarageEntry> = ({ name, color, id, loading }) => {
     const dispatch = useAppDispatch();
@@ -30,7 +30,12 @@ const GarageItem: FC<IGarageEntry> = ({ name, color, id, loading }) => {
                     );
                 }}
             />
-            <RGBPallete defaultValue={color} />
+            <OpenPaletteButton
+                defaultValue={color}
+                updateColor={(value) => {
+                    dispatch(updateCarFetch({ id, name, color: value }));
+                }}
+            />
         </div>
     );
 };
