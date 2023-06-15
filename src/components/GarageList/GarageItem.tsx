@@ -5,7 +5,7 @@ import {
     updateCarFetch,
 } from '../../store/features/garage/garageSlice';
 import { useAppDispatch } from '../../store/hooks/useAppDispatch';
-import { OpenPaletteButton } from './OpenRGBPalette/OpenPaletteButton';
+import { OpenPaletteButton } from './OpenPaletteButton/OpenPaletteButton';
 
 const GarageItem: FC<IGarageEntry> = ({ name, color, id, loading }) => {
     const dispatch = useAppDispatch();
