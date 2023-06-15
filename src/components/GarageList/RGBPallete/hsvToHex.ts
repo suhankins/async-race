@@ -13,8 +13,8 @@ export function hexToHsv(hex: string): {
 
     // Extract the RGB values from the hex string
     const r = parseInt(hex.slice(0, 2), 16) / 255;
-    const g = parseInt(hex.slice(2, 2), 16) / 255;
-    const b = parseInt(hex.slice(4, 2), 16) / 255;
+    const g = parseInt(hex.slice(2, 4), 16) / 255;
+    const b = parseInt(hex.slice(4, 6), 16) / 255;
 
     // Find the maximum and minimum values
     const max = Math.max(r, g, b);
@@ -41,7 +41,6 @@ export function hexToHsv(hex: string): {
     if (max !== 0) {
         s = delta / max;
     }
-
     return { hue: h / 360, saturation: s, value: v };
 }
 
@@ -60,7 +59,7 @@ function getHex(number: number) {
  */
 export function hsvToHex(h: number, s: number, v: number): string {
     // Normalize the values
-    const normalizedH = h * 360;
+    const normalizedH = Math.max(0, Math.min(359, h * 360));
     const normalizedS = Math.max(0, Math.min(1, s));
     const normalizedV = Math.max(0, Math.min(1, v));
 
