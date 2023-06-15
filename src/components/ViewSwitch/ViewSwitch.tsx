@@ -1,4 +1,4 @@
-import { IView } from '../../models/IView';
+import { IView } from '../../views/IView';
 import { setCurrentViewIndex } from '../../store/features/views/viewsSlice';
 import { useAppDispatch } from '../../store/hooks/useAppDispatch';
 import { useAppSelector } from '../../store/hooks/useAppSelector';
@@ -19,7 +19,7 @@ export default function ViewSwitch({ views }: { views: IView[] }) {
                     </button>
                 ))}
             </div>
-            <div>{views[currentViewIndex].component({})}</div>
+            <div>{views[currentViewIndex].component}</div>
         </div>
     );
 }

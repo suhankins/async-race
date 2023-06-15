@@ -9,11 +9,11 @@ function App() {
             views={[
                 {
                     name: 'Garage',
-                    component: Garage,
+                    component: <Garage />,
                 },
                 {
                     name: 'Winners',
-                    component: Winners,
+                    component: <Winners />,
                 },
             ]}
         />
