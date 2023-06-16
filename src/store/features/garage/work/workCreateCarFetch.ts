@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects';
 import { createCarFailure, createCarSuccess } from '../garageSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { ICar } from '../../../../models/ICar';
+import { ICar } from '../../../ICar';
 
 export function* workCreateCarFetch(action: PayloadAction<ICar>) {
     try {

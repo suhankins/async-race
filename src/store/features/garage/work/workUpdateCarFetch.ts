@@ -5,7 +5,7 @@ import {
     updateCarFailure,
     updateCarSuccess,
 } from '../garageSlice';
-import { ICar } from '../../../../models/ICar';
+import { ICar } from '../../../ICar';
 
 export function* workUpdateCarFetch(action: PayloadAction<ICar>) {
     try {

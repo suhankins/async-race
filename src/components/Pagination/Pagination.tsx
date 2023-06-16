@@ -1,25 +1,21 @@
 import { useEffect } from 'react';
 import { IStateWithPages } from '../../store/features/IStateWithPages';
-import List, { ListProps } from './List';
 import { PaginationButtons } from './PaginationButtons';
-import { IItemWithId } from '../../models/IItemWithId';
 
-interface PaginationProps<T extends IItemWithId>
-    extends ListProps<T>,
-        IStateWithPages {
+interface PaginationProps extends IStateWithPages {
+    children?: React.ReactNode;
     loading: boolean;
     getGarageFetch: () => void;
 }
 
-export default function Pagination<T extends IItemWithId>({
+export default function Pagination({
     loading,
-    items,
-    renderItem,
+    children,
     currentPage,
     totalItems,
     itemsPerPage,
     getGarageFetch,
-}: PaginationProps<T>) {
+}: PaginationProps) {
     useEffect(() => {
         getGarageFetch();
     }, [currentPage, getGarageFetch]);
@@ -29,7 +25,7 @@ export default function Pagination<T extends IItemWithId>({
     return (
         <div>
             <h1>Total: {totalItems}</h1>
-            <List<T> items={items} renderItem={renderItem} />
+            {children}
             <PaginationButtons
                 currentPage={currentPage}
                 totalItems={totalItems}

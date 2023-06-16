@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects';
 import { RootState } from '../../../rootStore';
-import { ICar } from '../../../../models/ICar';
+import { ICar } from '../../../ICar';
 import {
     setTotalItems,
     getGarageSuccess,

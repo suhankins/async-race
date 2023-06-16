@@ -22,13 +22,19 @@ const GarageList: FC = () => {
     return (
         <Pagination
             getGarageFetch={getGarageFetchDispatch}
-            items={items}
             loading={loading}
             currentPage={currentPage}
             totalItems={totalItems}
             itemsPerPage={itemsPerPage}
-            renderItem={GarageItem}
-        />
+        >
+            <ul>
+                {items.map((item) => (
+                    <li key={item.id}>
+                        <GarageItem key={item.id} {...item} />
+                    </li>
+                ))}
+            </ul>
+        </Pagination>
     );
 };
 

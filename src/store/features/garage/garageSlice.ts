@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IStateWithPages } from '../IStateWithPages';
-import { ICar } from '../../../models/ICar';
+import { ICar } from '../../ICar';
 
 export interface IGarageEntry extends ICar {
     isEngineStarted: boolean;
