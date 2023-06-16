@@ -3,6 +3,7 @@ import garageSlice from './features/garage/garageSlice';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './rootSaga';
 import viewsSlice from './features/views/viewsSlice';
+import winnersSlice from './features/winners/winnersSlice';
 
 const saga = createSagaMiddleware();
 
@@ -10,7 +11,7 @@ export const store = configureStore({
     middleware: [saga],
     reducer: {
         garage: garageSlice,
-        //winners: winnersSlice,
+        winners: winnersSlice,
         views: viewsSlice,
     },
 });
