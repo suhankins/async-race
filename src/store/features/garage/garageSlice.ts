@@ -74,7 +74,14 @@ const garageSlice = createSlice({
         updateCarFetch(state, action: PayloadAction<ICar>) {
             setCarLoading(state, action.payload.id, true);
         },
-        updateCarSuccess(_state, _action: PayloadAction<number>) {},
+        updateCarSuccess(state, action: PayloadAction<ICar>) {
+            const car = state.cars.find((car) => car.id === action.payload.id);
+            if (car) {
+                car.loading = false;
+                car.name = action.payload.name;
+                car.color = action.payload.color;
+            }
+        },
         updateCarFailure(state, action: PayloadAction<number>) {
             setCarLoading(state, action.payload, false);
         },

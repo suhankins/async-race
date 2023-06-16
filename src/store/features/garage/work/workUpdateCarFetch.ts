@@ -15,7 +15,8 @@ export function* workUpdateCarFetch(action: PayloadAction<ICar>) {
             })
         );
         if (!updateRequest.ok) throw new Error('Failed to update car');
-        yield put(updateCarSuccess(action.payload.id));
+        const updatedCar: ICar = yield updateRequest.json();
+        yield put(updateCarSuccess(updatedCar));
     } catch (e) {
         console.error(e);
         yield put(updateCarFailure(action.payload.id));

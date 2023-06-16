@@ -8,7 +8,6 @@ import {
     getGarageFetch,
     setPage,
     updateCarFetch,
-    updateCarSuccess,
 } from './garageSlice';
 import { workGetGarageFetch } from './work/workGetGarageFetch';
 import { workDeleteCarFetch } from './work/workDeleteCarFetch';
@@ -20,7 +19,6 @@ export function* garageSaga() {
     yield takeLatest(getGarageFetch, workGetGarageFetch);
     yield takeLatest(deleteCarSuccess, workGetGarageFetch);
     yield takeLatest(createCarSuccess, workGetGarageFetch);
-    yield takeLatest(updateCarSuccess, workGetCarFetch);
     yield takeLatest(setPage, workGetGarageFetch);
 
     yield takeEvery(deleteCarFetch, workDeleteCarFetch);
