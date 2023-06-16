@@ -15,7 +15,9 @@ export function* workGetGarageFetch() {
         } = yield select((state: RootState) => state.garage);
         const garageRequest: Response = yield call(() =>
             fetch(
-                `http://localhost:3000/garage?_page=${state.currentPage}&limit=${state.itemsPerPage}`
+                `http://localhost:3000/garage?_page=${
+                    state.currentPage + 1
+                }&_limit=${state.itemsPerPage}`
             )
         );
         if (!garageRequest.ok) throw new Error('Failed to fetch garage');

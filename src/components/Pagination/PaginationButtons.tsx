@@ -1,3 +1,6 @@
+import { setPage } from '../../store/features/garage/garageSlice';
+import { useAppDispatch } from '../../store/hooks/useAppDispatch';
+
 export function PaginationButtons({
     currentPage,
     totalItems,
@@ -9,10 +12,16 @@ export function PaginationButtons({
 }) {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
+    const dispatch = useAppDispatch();
+
     return (
         <div>
-            {new Array(totalPages).fill(0).map((_, page) => (
-                <button key={page} onClick={() => console.log(page)}>
+            {new Array(totalPages).fill(null).map((_, page) => (
+                <button
+                    type="button"
+                    key={page}
+                    onClick={() => dispatch(setPage(page))}
+                >
                     {page + 1} {page === currentPage && '(current)'}
                 </button>
             ))}

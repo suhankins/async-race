@@ -1,10 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { call, put } from 'redux-saga/effects';
-import {
-    getCarFetch,
-    updateCarFailure,
-    updateCarSuccess,
-} from '../garageSlice';
+import { updateCarFailure, updateCarSuccess } from '../garageSlice';
 import { ICar } from '../../../ICar';
 
 export function* workUpdateCarFetch(action: PayloadAction<ICar>) {

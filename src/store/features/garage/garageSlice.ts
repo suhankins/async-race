@@ -90,6 +90,9 @@ const garageSlice = createSlice({
         setTotalItems(state, action: PayloadAction<number>) {
             state.totalItems = action.payload;
         },
+        setPage(state, action: PayloadAction<number>) {
+            state.currentPage = action.payload;
+        },
     },
 });
 
@@ -110,5 +113,6 @@ export const {
     getCarFetch,
     getCarSuccess,
     setTotalItems,
+    setPage,
 } = garageSlice.actions;
 export default garageSlice.reducer;
