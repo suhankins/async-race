@@ -7,12 +7,17 @@ export interface IWinnersEntry {
     time: number;
 }
 
+export interface IWinnersEntryWithNameAndColor extends IWinnersEntry {
+    name: string;
+    color: string;
+}
+
 export type SortBy = 'wins' | 'time';
 export type SortOrder = 'ASC' | 'DESC';
 
 export interface IWinnersState extends IStateWithPages {
     loading: boolean;
-    entries: IWinnersEntry[];
+    entries: IWinnersEntryWithNameAndColor[];
     sortBy: SortBy;
     sortOrder: SortOrder;
 }
@@ -35,7 +40,10 @@ const winnersSlice = createSlice({
         getWinnersFetch(state) {
             state.loading = true;
         },
-        getWinnersSuccess(state, action: PayloadAction<IWinnersEntry[]>) {
+        getWinnersSuccess(
+            state,
+            action: PayloadAction<IWinnersEntryWithNameAndColor[]>
+        ) {
             state.loading = false;
             state.entries = action.payload;
         },

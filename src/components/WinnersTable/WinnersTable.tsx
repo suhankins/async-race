@@ -69,8 +69,8 @@ export const WinnersTable = () => {
                     {entries.map((entry, index) => (
                         <tr key={entry.id}>
                             <td>{index + currentPage * itemsPerPage + 1}</td>
-                            <td>NAME GOES HERE {entry.id}</td>
-                            <td>COLOR GOES HERE</td>
+                            <td>{entry.color}</td>
+                            <td>{entry.name}</td>
                             <td>{entry.wins}</td>
                             <td>{entry.time}</td>
                         </tr>
