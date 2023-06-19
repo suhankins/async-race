@@ -45,8 +45,8 @@ const winnersSlice = createSlice({
         setSortBy(state, action: PayloadAction<SortBy>) {
             state.sortBy = action.payload;
         },
-        setOrder(state, action: PayloadAction<SortOrder>) {
-            state.sortOrder = action.payload;
+        switchOrder(state) {
+            state.sortOrder = state.sortOrder === 'ASC' ? 'DESC' : 'ASC';
         },
         setTotalItems(state, action: PayloadAction<number>) {
             state.totalItems = action.payload;
@@ -61,6 +61,8 @@ export const {
     getWinnersFetch,
     getWinnersSuccess,
     getWinnersFailure,
+    setSortBy,
+    switchOrder,
     setTotalItems,
     setPage,
 } = winnersSlice.actions;
