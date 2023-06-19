@@ -3,7 +3,10 @@ import Pagination from '../Pagination/Pagination';
 import { useAppSelector } from '../../store/hooks/useAppSelector';
 import GarageItem from './GarageItem';
 import { useAppDispatch } from '../../store/hooks/useAppDispatch';
-import { getGarageFetch } from '../../store/features/garage/garageSlice';
+import {
+    getGarageFetch,
+    setPage,
+} from '../../store/features/garage/garageSlice';
 
 const GarageList: FC = () => {
     const {
@@ -18,10 +21,17 @@ const GarageList: FC = () => {
     const getGarageFetchDispatch = useCallback(() => {
         dispatch(getGarageFetch());
     }, [dispatch]);
+    const setPageDispatch = useCallback(
+        (page: number) => {
+            dispatch(setPage(page));
+        },
+        [dispatch]
+    );
 
     return (
         <Pagination
-            getGarageFetch={getGarageFetchDispatch}
+            getEntriesFetch={getGarageFetchDispatch}
+            setPage={setPageDispatch}
             loading={loading}
             currentPage={currentPage}
             totalItems={totalItems}

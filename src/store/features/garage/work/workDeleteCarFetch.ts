@@ -9,7 +9,15 @@ export function* workDeleteCarFetch(action: PayloadAction<number>) {
                 method: 'DELETE',
             })
         );
-        if (!deleteRequest.ok) throw new Error('Failed to delete car');
+        if (!deleteRequest.ok)
+            throw new Error('Failed to delete car from garage');
+        // We don't check for the response status here because if it fails,
+        // we just assume that the car is not in the winners list
+        yield call(() =>
+            fetch(`http://localhost:3000/winners/${action.payload}`, {
+                method: 'DELETE',
+            })
+        );
         yield put(deleteCarSuccess());
     } catch (e) {
         console.error(e);

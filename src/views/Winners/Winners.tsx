@@ -1,7 +1,8 @@
 import { FC } from 'react';
+import { WinnersTable } from '../../components/WinnersTable/WinnersTable';
 
 const Winners: FC = () => {
-    return <h1>Winners</h1>;
+    return <WinnersTable />;
 };
 
 export default Winners;
