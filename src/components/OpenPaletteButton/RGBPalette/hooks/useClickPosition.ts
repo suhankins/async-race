@@ -1,15 +1,16 @@
 import { RefObject, useEffect, useState } from 'react';
 
+function normalize(value: number) {
+    if (value < 0) return 0;
+    if (value > 1) return 1;
+    return value;
+}
+
 function getMousePosition(e: MouseEvent, ref: RefObject<HTMLDivElement>) {
     if (ref.current) {
         const rect = ref.current.getBoundingClientRect();
-        let x = (e.clientX - rect.left) / rect.width;
-        let y = (e.clientY - rect.top) / rect.height;
-
-        if (x < 0) x = 0;
-        if (x > 1) x = 1;
-        if (y < 0) y = 0;
-        if (y > 1) y = 1;
+        let x = normalize((e.clientX - rect.left) / rect.width);
+        let y = normalize((e.clientY - rect.top) / rect.height);
 
         return { x, y };
     }
@@ -17,8 +18,7 @@ function getMousePosition(e: MouseEvent, ref: RefObject<HTMLDivElement>) {
 }
 
 /**
- *
- * @returns
+ * Returns the position of the mouse relative to given element.
  */
 export function useClickPosition(
     ref: RefObject<HTMLDivElement>,
