@@ -3,6 +3,7 @@ import { RootState } from '../../../rootStore';
 import {
     IWinnersEntry,
     IWinnersEntryWithNameAndColor,
+    IWinnersState,
     SortBy,
     SortOrder,
     getWinnersFailure,
@@ -10,22 +11,19 @@ import {
     setTotalItems,
 } from '../winnersSlice';
 
+function winnersUrl(page: number, sortBy: SortBy, sortOrder: SortOrder) {
+    return `http://localhost:3000/winners?_page=${page}&_limit=10&_sort=${sortBy}&_order=${sortOrder}`;
+}
+
 export function* workGetWinnersFetch() {
     try {
-        const state: {
-            currentPage: number;
-            itemsPerPage: number;
-            sortBy: SortBy;
-            sortOrder: SortOrder;
-        } = yield select((state: RootState) => state.winners);
+        const state: IWinnersState = yield select(
+            (state: RootState) => state.winners
+        );
+        const { currentPage, sortBy, sortOrder } = state;
+        // TODO: Figure out how to put this logic in other functions
         const winnersRequest: Response = yield call(() =>
-            fetch(
-                `http://localhost:3000/winners?_page=${
-                    state.currentPage + 1
-                }&_limit=${state.itemsPerPage}&_sort=${state.sortBy}&_order=${
-                    state.sortOrder
-                }`
-            )
+            fetch(winnersUrl(currentPage + 1, sortBy, sortOrder))
         );
         if (!winnersRequest.ok) throw new Error('Failed to fetch winners');
         const winnersJson: IWinnersEntry[] = yield winnersRequest.json();
