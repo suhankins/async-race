@@ -6,6 +6,7 @@ import {
     getGarageSuccess,
     getGarageFailure,
 } from '../garageSlice';
+import { callApi } from '../../../../utils/callApi';
 
 export function* workGetGarageFetch() {
     try {
@@ -14,11 +15,10 @@ export function* workGetGarageFetch() {
             itemsPerPage: number;
         } = yield select((state: RootState) => state.garage);
         const garageRequest: Response = yield call(() =>
-            fetch(
-                `http://localhost:3000/garage?_page=${
-                    state.currentPage + 1
-                }&_limit=${state.itemsPerPage}`
-            )
+            callApi('garage', 'GET', {
+                _page: state.currentPage + 1,
+                _limit: state.itemsPerPage,
+            })
         );
         if (!garageRequest.ok) throw new Error('Failed to fetch garage');
         const garageJson: ICar[] = yield garageRequest.json();

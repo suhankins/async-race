@@ -4,16 +4,11 @@ import {
     IWinnersEntry,
     IWinnersEntryWithNameAndColor,
     IWinnersState,
-    SortBy,
-    SortOrder,
     getWinnersFailure,
     getWinnersSuccess,
     setTotalItems,
 } from '../winnersSlice';
-
-function winnersUrl(page: number, sortBy: SortBy, sortOrder: SortOrder) {
-    return `http://localhost:3000/winners?_page=${page}&_limit=10&_sort=${sortBy}&_order=${sortOrder}`;
-}
+import { callApi } from '../../../../utils/callApi';
 
 export function* workGetWinnersFetch() {
     try {
@@ -23,14 +18,18 @@ export function* workGetWinnersFetch() {
         const { currentPage, sortBy, sortOrder } = state;
         // TODO: Figure out how to put this logic in other functions
         const winnersRequest: Response = yield call(() =>
-            fetch(winnersUrl(currentPage + 1, sortBy, sortOrder))
+            callApi('winners', 'GET', {
+                page: currentPage + 1,
+                sortBy,
+                sortOrder,
+            })
         );
         if (!winnersRequest.ok) throw new Error('Failed to fetch winners');
         const winnersJson: IWinnersEntry[] = yield winnersRequest.json();
         const winnersWithNamesAndColors: IWinnersEntryWithNameAndColor[] = [];
         for (const winner of winnersJson) {
             const carRequest: Response = yield call(() =>
-                fetch(`http://localhost:3000/garage/${winner.id}`)
+                callApi(`garage/${winner.id}`)
             );
             if (!carRequest.ok) throw new Error('Failed to fetch car');
             const carJson: { name: string; color: string } =

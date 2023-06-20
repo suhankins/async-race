@@ -2,17 +2,12 @@ import { call, put } from 'redux-saga/effects';
 import { createCarFailure, createCarSuccess } from '../garageSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { ICar } from '../../../ICar';
+import { callApi } from '../../../../utils/callApi';
 
 export function* workCreateCarFetch(action: PayloadAction<ICar>) {
     try {
         const createRequest: Response = yield call(() =>
-            fetch(`http://localhost:3000/garage/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(action.payload),
-            })
+            callApi(`garage`, 'POST', action.payload)
         );
         if (!createRequest.ok) throw new Error('Failed to create car');
         yield put(createCarSuccess());
