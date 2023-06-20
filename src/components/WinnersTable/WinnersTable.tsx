@@ -21,19 +21,20 @@ export const WinnersTable = () => {
     } = useAppSelector((state) => state.winners);
 
     const dispatch = useAppDispatch();
-    const getWinnersFetchDispatch = useCallback(
+
+    const getWinners = useCallback(
         () => dispatch(getWinnersFetch()),
         [dispatch]
     );
-    const setPageDispatch = useCallback(
+    const handleSetPage = useCallback(
         (page: number) => dispatch(setPage(page)),
         [dispatch]
     );
 
     return (
         <Pagination
-            getEntries={getWinnersFetchDispatch}
-            handleSetPage={setPageDispatch}
+            getEntries={getWinners}
+            handleSetPage={handleSetPage}
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
             totalItems={totalItems}
