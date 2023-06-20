@@ -32,8 +32,8 @@ export const WinnersTable = () => {
 
     return (
         <Pagination
-            getEntriesFetch={getWinnersFetchDispatch}
-            setPage={setPageDispatch}
+            getEntries={getWinnersFetchDispatch}
+            handleSetPage={setPageDispatch}
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
             totalItems={totalItems}

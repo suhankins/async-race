@@ -9,19 +9,15 @@ import {
 } from '../../store/features/garage/garageSlice';
 
 const GarageList: FC = () => {
-    const {
-        cars: items,
-        loading,
-        currentPage,
-        totalItems,
-        itemsPerPage,
-    } = useAppSelector((state) => state.garage);
+    const { cars, loading, currentPage, totalItems, itemsPerPage } =
+        useAppSelector((state) => state.garage);
     const dispatch = useAppDispatch();
 
-    const getGarageFetchDispatch = useCallback(() => {
+    const loadGarage = useCallback(() => {
         dispatch(getGarageFetch());
     }, [dispatch]);
-    const setPageDispatch = useCallback(
+
+    const handleSetPage = useCallback(
         (page: number) => {
             dispatch(setPage(page));
         },
@@ -30,17 +26,17 @@ const GarageList: FC = () => {
 
     return (
         <Pagination
-            getEntriesFetch={getGarageFetchDispatch}
-            setPage={setPageDispatch}
+            getEntries={loadGarage}
+            handleSetPage={handleSetPage}
             loading={loading}
             currentPage={currentPage}
             totalItems={totalItems}
             itemsPerPage={itemsPerPage}
         >
             <ul>
-                {items.map((item) => (
-                    <li key={item.id}>
-                        <GarageItem key={item.id} {...item} />
+                {cars.map((car) => (
+                    <li key={car.id}>
+                        <GarageItem {...car} />
                     </li>
                 ))}
             </ul>

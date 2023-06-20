@@ -5,8 +5,8 @@ import { PaginationButtons } from './PaginationButtons';
 interface PaginationProps extends IStateWithPages {
     children?: React.ReactNode;
     loading: boolean;
-    getEntriesFetch: () => void;
-    setPage: (page: number) => void;
+    getEntries: () => void;
+    handleSetPage: (page: number) => void;
 }
 
 export default function Pagination({
@@ -15,12 +15,12 @@ export default function Pagination({
     currentPage,
     totalItems,
     itemsPerPage,
-    getEntriesFetch,
-    setPage,
+    getEntries,
+    handleSetPage,
 }: PaginationProps) {
     useEffect(() => {
-        getEntriesFetch();
-    }, [currentPage, getEntriesFetch]);
+        getEntries();
+    }, [currentPage, getEntries]);
 
     if (loading) return <p>Loading...</p>;
 
@@ -29,7 +29,7 @@ export default function Pagination({
             <h1>Total: {totalItems}</h1>
             {children}
             <PaginationButtons
-                setPage={setPage}
+                handleSetPage={handleSetPage}
                 currentPage={currentPage}
                 totalItems={totalItems}
                 itemsPerPage={itemsPerPage}
