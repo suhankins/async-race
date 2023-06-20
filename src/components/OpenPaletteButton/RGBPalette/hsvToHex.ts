@@ -12,7 +12,7 @@ export function hexToHsv(hex: string): {
 } {
     const color = tinyColor(hex);
     const { h: hue, s: saturation, v: value } = color.toHsv();
-    return { hue, saturation, value };
+    return { hue: hue / 360, saturation, value };
 }
 
 /**
