@@ -23,7 +23,9 @@ export function* workGetGarageFetch() {
         if (!garageRequest.ok) throw new Error('Failed to fetch garage');
         const garageJson: ICar[] = yield garageRequest.json();
         yield put(
-            setTotalItems(+(garageRequest.headers.get('X-Total-Count') ?? '0'))
+            setTotalItems(
+                parseInt(garageRequest.headers.get('X-Total-Count') ?? '0')
+            )
         );
         yield put(getGarageSuccess(garageJson));
     } catch (e) {
