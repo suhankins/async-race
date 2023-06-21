@@ -5,10 +5,13 @@ import {
     createCarFetch,
     generateRandomCars,
 } from '../../store/features/garage/garageSlice';
+import { useAppSelector } from '../../store/hooks/useAppSelector';
 
 export function AddNewCar() {
     const [name, setName] = useState('');
     const [color, setColor] = useState('#ff0000');
+
+    const { loading } = useAppSelector((state) => state.garage);
 
     const dispatch = useAppDispatch();
 
@@ -29,6 +32,10 @@ export function AddNewCar() {
         },
         [dispatch, name, color]
     );
+
+    if (loading) {
+        return <p>TODO: Skeleton?</p>;
+    }
 
     return (
         <form onSubmit={handleSubmit}>
