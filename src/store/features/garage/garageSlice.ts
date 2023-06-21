@@ -35,6 +35,9 @@ const garageSlice = createSlice({
     initialState,
     reducers: {
         // TODO: Refactor
+        generateRandomCars(state, _action: PayloadAction<number>) {
+            state.loading = true;
+        },
         getGarageFetch(state) {
             state.loading = true;
         },
@@ -104,6 +107,7 @@ const garageSlice = createSlice({
 });
 
 export const {
+    generateRandomCars,
     createCarFetch,
     createCarSuccess,
     createCarFailure,
