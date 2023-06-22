@@ -1,7 +1,7 @@
 import { FC, useCallback } from 'react';
 import Pagination from '../Pagination/Pagination';
 import { useAppSelector } from '../../store/hooks/useAppSelector';
-import GarageItem from './GarageItem';
+import GarageItem from './GarageItem/GarageItem';
 import { useAppDispatch } from '../../store/hooks/useAppDispatch';
 import {
     getGarageFetch,
