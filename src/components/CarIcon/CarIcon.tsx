@@ -1,9 +1,11 @@
 export function CarIcon({
     color,
     className,
+    style,
 }: {
     color: string;
     className?: string;
+    style?: React.CSSProperties;
 }) {
     return (
         <svg
@@ -12,6 +14,7 @@ export function CarIcon({
             version="1.0"
             viewBox="-300 0 200 330"
             fill={color}
+            style={style}
         >
             <path
                 transform="scale(-1, 1)"

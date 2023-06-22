@@ -9,7 +9,13 @@ import { OpenPaletteButton } from '../../OpenPaletteButton/OpenPaletteButton';
 import styles from './GarageItem.module.scss';
 import { CarIcon } from '../../CarIcon/CarIcon';
 
-const GarageItem: FC<IGarageEntry> = ({ name, color, id, loading }) => {
+const GarageItem: FC<IGarageEntry> = ({
+    name,
+    color,
+    id,
+    loading,
+    position,
+}) => {
     const dispatch = useAppDispatch();
 
     if (loading) return <p>Loading...</p>;
@@ -39,8 +45,21 @@ const GarageItem: FC<IGarageEntry> = ({ name, color, id, loading }) => {
                     dispatch(updateCarFetch({ id, name, color: value }));
                 }}
             />
-            <div className={styles.raceTrack}>
-                <CarIcon color={color} />
+            <div className={styles.raceTrackContainer}>
+                <button type="button" className="btn btn-success">
+                    Start
+                </button>
+                <button type="button" className="btn btn-danger">
+                    Stop
+                </button>
+                <div className={styles.raceTrack}>
+                    <CarIcon
+                        color={color}
+                        style={{
+                            left: `${position}%`,
+                        }}
+                    />
+                </div>
             </div>
         </div>
     );

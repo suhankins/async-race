@@ -103,6 +103,20 @@ const garageSlice = createSlice({
         setPage(state, action: PayloadAction<number>) {
             state.currentPage = action.payload;
         },
+        startEngineFetch(state, action: PayloadAction<number>) {
+            setCarLoading(state, action.payload, true);
+        },
+        startEngineSuccess(state, action: PayloadAction<number>) {
+            const car = state.cars.find((car) => car.id === action.payload);
+            if (car) car.isEngineStarted = true;
+        },
+        startEngineFailure(state, action: PayloadAction<number>) {
+            setCarLoading(state, action.payload, false);
+        },
+        breakEngine(state, action: PayloadAction<number>) {
+            const car = state.cars.find((car) => car.id === action.payload);
+            if (car) car.isEngineStarted = false;
+        },
     },
 });
 
@@ -125,5 +139,9 @@ export const {
     getCarSuccess,
     setTotalItems,
     setPage,
+    startEngineFailure,
+    startEngineFetch,
+    startEngineSuccess,
+    breakEngine,
 } = garageSlice.actions;
 export default garageSlice.reducer;

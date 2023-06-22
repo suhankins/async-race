@@ -1,14 +1,16 @@
-.raceTrack {
+.raceTrackContainer {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: start;
     align-items: center;
     padding: 0 10px;
     height: 50px;
     border-bottom: 1px dotted #ccc;
-
-    svg {
-        height: 30px;
-        width: 90px;
+    .raceTrack {
+        svg {
+            height: 30px;
+            width: 90px;
+            position: relative;
+        }
     }
 }
