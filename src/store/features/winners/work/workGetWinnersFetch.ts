@@ -15,11 +15,12 @@ export function* workGetWinnersFetch() {
         const state: IWinnersState = yield select(
             (state: RootState) => state.winners
         );
-        const { currentPage, sortBy, sortOrder } = state;
+        const { currentPage, sortBy, sortOrder, itemsPerPage } = state;
         // TODO: Figure out how to put this logic in other functions
         const winnersRequest: Response = yield call(() =>
             callApi('winners', 'GET', {
-                page: currentPage + 1,
+                _limit: itemsPerPage,
+                _page: currentPage + 1,
                 sortBy,
                 sortOrder,
             })
@@ -41,7 +42,9 @@ export function* workGetWinnersFetch() {
             });
         }
         yield put(
-            setTotalItems(+(winnersRequest.headers.get('X-Total-Count') ?? '0'))
+            setTotalItems(
+                parseInt(winnersRequest.headers.get('X-Total-Count') ?? '0')
+            )
         );
         yield put(getWinnersSuccess(winnersWithNamesAndColors));
     } catch (e) {
