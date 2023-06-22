@@ -2,6 +2,7 @@ import { FC } from 'react';
 import {
     IGarageEntry,
     deleteCarFetch,
+    startEngineFetch,
     updateCarFetch,
 } from '../../../store/features/garage/garageSlice';
 import { useAppDispatch } from '../../../store/hooks/useAppDispatch';
@@ -46,7 +47,13 @@ const GarageItem: FC<IGarageEntry> = ({
                 }}
             />
             <div className={styles.raceTrackContainer}>
-                <button type="button" className="btn btn-success">
+                <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={() => {
+                        dispatch(startEngineFetch(id));
+                    }}
+                >
                     Start
                 </button>
                 <button type="button" className="btn btn-danger">

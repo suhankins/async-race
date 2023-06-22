@@ -9,6 +9,8 @@ export interface IGarageEntry extends ICar {
      * Position on the track.
      * Should be a number between 0 and 1.
      */
+    distance: number;
+    velocity: number;
     position: number;
 }
 
@@ -48,6 +50,8 @@ const garageSlice = createSlice({
                 loading: false,
                 isEngineStarted: false,
                 position: 0,
+                distance: 0,
+                velocity: 0,
             }));
         },
         getGarageFailure(state) {
@@ -103,15 +107,16 @@ const garageSlice = createSlice({
         setPage(state, action: PayloadAction<number>) {
             state.currentPage = action.payload;
         },
-        startEngineFetch(state, action: PayloadAction<number>) {
-            setCarLoading(state, action.payload, true);
-        },
-        startEngineSuccess(state, action: PayloadAction<number>) {
+        startEngineFetch(_state, _action: PayloadAction<number>) {},
+        startEngineSuccess(
+            state,
+            action: PayloadAction<Partial<IGarageEntry>>
+        ) {
             const car = state.cars.find((car) => car.id === action.payload);
-            if (car) car.isEngineStarted = true;
-        },
-        startEngineFailure(state, action: PayloadAction<number>) {
-            setCarLoading(state, action.payload, false);
+            if (!car) return;
+            car.isEngineStarted = true;
+            car.velocity = action.payload.velocity ?? 0;
+            car.distance = action.payload.distance ?? 0;
         },
         breakEngine(state, action: PayloadAction<number>) {
             const car = state.cars.find((car) => car.id === action.payload);
@@ -139,7 +144,6 @@ export const {
     getCarSuccess,
     setTotalItems,
     setPage,
-    startEngineFailure,
     startEngineFetch,
     startEngineSuccess,
     breakEngine,

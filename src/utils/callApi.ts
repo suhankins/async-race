@@ -6,7 +6,7 @@
  * @returns {Promise<Response>}
  *
  * @example
- * const response: Response = await getApi('garage', 'GET', {limit: 7});
+ * const response: Response = await getApi('garage', 'GET', {_page: 1, _limit: 7});
  */
 export async function callApi(
     resource: string,
@@ -17,7 +17,7 @@ export async function callApi(
     const requestInit: RequestInit = { method };
 
     if (params) {
-        if (method === 'GET' || method === 'DELETE') {
+        if (method === 'GET' || method === 'PATCH') {
             for (const [key, value] of Object.entries(params)) {
                 url.searchParams.append(key, value as string);
             }
