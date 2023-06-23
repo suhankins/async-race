@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useRef } from 'react';
 import {
     IGarageEntry,
     deleteCarFetch,
@@ -23,9 +23,17 @@ const GarageItem: FC<IGarageEntry> = ({
 }) => {
     const dispatch = useAppDispatch();
 
-    console.log('GarageItem', id, name, color, loading, isEngineStarted);
-
     if (loading) return <p>Loading...</p>;
+
+    const isAtStart = distance === 0;
+
+    const calculatedStyles: React.CSSProperties = {
+        animation: `${distance / velocity}ms linear 0s 1 normal ${
+            isAtStart ? '' : 'forwards'
+        } ${isEngineStarted ? 'running' : 'paused'} ${
+            isAtStart ? '' : styles.slide
+        }`,
+    };
 
     return (
         <div>
@@ -74,14 +82,7 @@ const GarageItem: FC<IGarageEntry> = ({
                         <CarIcon
                             color={color}
                             className={styles.car}
-                            style={{
-                                animationFillMode:
-                                    distance > 0 ? 'forwards' : '',
-                                animationPlayState: isEngineStarted
-                                    ? 'running'
-                                    : 'paused',
-                                animationDuration: distance / velocity + 'ms',
-                            }}
+                            style={calculatedStyles}
                         />
                     </div>
                     <FlagIcon className={styles.flag} />

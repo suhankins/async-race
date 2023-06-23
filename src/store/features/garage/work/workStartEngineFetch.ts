@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { call, put } from 'redux-saga/effects';
-import { breakEngine, startEngineSuccess } from '../garageSlice';
+import { breakEngine, resetCar, startEngineSuccess } from '../garageSlice';
 import { callApi } from '../../../../utils/callApi';
 
 export interface EngineStartResponse {
@@ -10,6 +10,8 @@ export interface EngineStartResponse {
 
 export function* workStartEngineFetch(action: PayloadAction<number>) {
     try {
+        // We reset car first, so it starts from the beginning of the track
+        yield put(resetCar(action.payload));
         const carRequest: Response = yield call(() =>
             callApi(`engine`, 'PATCH', {
                 id: action.payload,
