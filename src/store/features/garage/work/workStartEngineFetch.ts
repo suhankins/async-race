@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { call, put } from 'redux-saga/effects';
-import { startEngineSuccess } from '../garageSlice';
+import { breakEngine, startEngineSuccess } from '../garageSlice';
 import { callApi } from '../../../../utils/callApi';
 
 export interface EngineStartResponse {
@@ -26,6 +26,13 @@ export function* workStartEngineFetch(action: PayloadAction<number>) {
                 distance: engineStartResponse.distance,
             })
         );
+        yield call(() =>
+            callApi(`engine`, 'PATCH', {
+                id: action.payload,
+                status: 'drive',
+            })
+        );
+        yield put(breakEngine(action.payload));
     } catch (e) {
         console.error(e);
     }

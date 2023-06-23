@@ -5,13 +5,8 @@ import { ICar } from '../../ICar';
 export interface IGarageEntry extends ICar {
     isEngineStarted: boolean;
     loading: boolean;
-    /**
-     * Position on the track.
-     * Should be a number between 0 and 1.
-     */
     distance: number;
     velocity: number;
-    position: number;
 }
 
 export interface IGarageState extends IStateWithPages {
@@ -49,7 +44,6 @@ const garageSlice = createSlice({
                 ...car,
                 loading: false,
                 isEngineStarted: false,
-                position: 0,
                 distance: 0,
                 velocity: 0,
             }));
@@ -112,8 +106,18 @@ const garageSlice = createSlice({
             state,
             action: PayloadAction<Partial<IGarageEntry>>
         ) {
-            const car = state.cars.find((car) => car.id === action.payload);
-            if (!car) return;
+            const car = state.cars.find((car) => {
+                return car.id === action.payload.id;
+            });
+            if (!car) {
+                console.error(
+                    'startEngineSuccess: car not found',
+                    action.payload,
+                    car
+                );
+                return;
+            }
+            console.log('startEngineSuccess', action.payload);
             car.isEngineStarted = true;
             car.velocity = action.payload.velocity ?? 0;
             car.distance = action.payload.distance ?? 0;

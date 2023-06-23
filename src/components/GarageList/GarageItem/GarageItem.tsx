@@ -9,15 +9,20 @@ import { useAppDispatch } from '../../../store/hooks/useAppDispatch';
 import { OpenPaletteButton } from '../../OpenPaletteButton/OpenPaletteButton';
 import styles from './GarageItem.module.scss';
 import { CarIcon } from '../../CarIcon/CarIcon';
+import { FlagIcon } from '../../FlagIcon/FlagIcon';
 
 const GarageItem: FC<IGarageEntry> = ({
     name,
     color,
     id,
     loading,
-    position,
+    isEngineStarted,
+    velocity,
+    distance,
 }) => {
     const dispatch = useAppDispatch();
+
+    console.log('GarageItem', id, name, color, loading, isEngineStarted);
 
     if (loading) return <p>Loading...</p>;
 
@@ -60,12 +65,19 @@ const GarageItem: FC<IGarageEntry> = ({
                     Stop
                 </button>
                 <div className={styles.raceTrack}>
-                    <CarIcon
-                        color={color}
-                        style={{
-                            left: `${position}%`,
-                        }}
-                    />
+                    <div className={styles.carContainer}>
+                        <CarIcon
+                            color={color}
+                            className={styles.car}
+                            style={{
+                                animationPlayState: isEngineStarted
+                                    ? 'running'
+                                    : 'paused',
+                                animationDuration: distance / velocity + 'ms',
+                            }}
+                        />
+                    </div>
+                    <FlagIcon className={styles.flag} />
                 </div>
             </div>
         </div>
