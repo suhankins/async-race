@@ -126,6 +126,14 @@ const garageSlice = createSlice({
             const car = state.cars.find((car) => car.id === action.payload);
             if (car) car.isEngineStarted = false;
         },
+        resetCar(state, action: PayloadAction<number>) {
+            const car = state.cars.find((car) => car.id === action.payload);
+            if (car) {
+                car.isEngineStarted = false;
+                car.distance = 0;
+                car.velocity = 0;
+            }
+        },
     },
 });
 
@@ -151,5 +159,6 @@ export const {
     startEngineFetch,
     startEngineSuccess,
     breakEngine,
+    resetCar,
 } = garageSlice.actions;
 export default garageSlice.reducer;

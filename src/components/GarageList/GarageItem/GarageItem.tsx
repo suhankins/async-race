@@ -2,6 +2,7 @@ import { FC } from 'react';
 import {
     IGarageEntry,
     deleteCarFetch,
+    resetCar,
     startEngineFetch,
     updateCarFetch,
 } from '../../../store/features/garage/garageSlice';
@@ -61,7 +62,11 @@ const GarageItem: FC<IGarageEntry> = ({
                 >
                     Start
                 </button>
-                <button type="button" className="btn btn-danger">
+                <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => dispatch(resetCar(id))}
+                >
                     Stop
                 </button>
                 <div className={styles.raceTrack}>
@@ -70,6 +75,8 @@ const GarageItem: FC<IGarageEntry> = ({
                             color={color}
                             className={styles.car}
                             style={{
+                                animationFillMode:
+                                    distance > 0 ? 'forwards' : '',
                                 animationPlayState: isEngineStarted
                                     ? 'running'
                                     : 'paused',
