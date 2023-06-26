@@ -11,10 +11,11 @@
 export async function callApi(
     resource: string,
     method: string = 'GET',
-    params?: Object
+    params?: Object,
+    signal?: AbortSignal
 ): Promise<Response> {
     const url = new URL(`http://localhost:3000/${resource}`);
-    const requestInit: RequestInit = { method };
+    const requestInit: RequestInit = { method, signal };
 
     if (params) {
         if (method === 'GET' || method === 'PATCH') {
