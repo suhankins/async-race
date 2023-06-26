@@ -122,7 +122,7 @@ const garageSlice = createSlice({
             car.velocity = action.payload.velocity ?? 0;
             car.distance = action.payload.distance ?? 0;
         },
-        breakEngine(state, action: PayloadAction<number>) {
+        stopEngine(state, action: PayloadAction<number>) {
             const car = state.cars.find((car) => car.id === action.payload);
             if (car) car.isEngineStarted = false;
         },
@@ -158,7 +158,7 @@ export const {
     setPage,
     startEngineFetch,
     startEngineSuccess,
-    breakEngine,
+    stopEngine,
     resetCar,
 } = garageSlice.actions;
 export default garageSlice.reducer;

@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { call, put } from 'redux-saga/effects';
-import { breakEngine, resetCar, startEngineSuccess } from '../garageSlice';
+import { stopEngine, resetCar, startEngineSuccess } from '../garageSlice';
 import { callApi } from '../../../../utils/callApi';
 
 export interface EngineStartResponse {
@@ -34,7 +34,7 @@ export function* workStartEngineFetch(action: PayloadAction<number>) {
                 status: 'drive',
             })
         );
-        yield put(breakEngine(action.payload));
+        yield put(stopEngine(action.payload));
     } catch (e) {
         console.error(e);
     }
