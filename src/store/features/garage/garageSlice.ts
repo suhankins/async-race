@@ -1,6 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IStateWithPages } from '../IStateWithPages';
 import { ICar } from '../../ICar';
+import { IWinnersEntry } from '../winners/winnersSlice';
+import { callApi } from '../../../utils/callApi';
 
 export interface IGarageEntry extends ICar {
     isEngineStarted: boolean;
@@ -10,11 +12,13 @@ export interface IGarageEntry extends ICar {
 }
 
 export interface IGarageState extends IStateWithPages {
+    isInRace: boolean;
     loading: boolean;
     cars: IGarageEntry[];
 }
 
 const initialState: IGarageState = {
+    isInRace: false,
     loading: true,
     currentPage: 0,
     totalItems: 0,
@@ -134,6 +138,40 @@ const garageSlice = createSlice({
                 car.velocity = 0;
             }
         },
+        startRace(state) {
+            state.isInRace = true;
+            state.cars.forEach((car) => {
+                car.isEngineStarted = true;
+            });
+        },
+        carFinished(state, action: PayloadAction<IWinnersEntry>) {
+            if (!state.isInRace) return;
+            // TODO: Modal like "Car {name} finished with {time} seconds"
+            state.isInRace = false;
+
+            // TODO: Refactor this callback hell
+            const finalTimeInThisRace = action.payload.time / 1000;
+            callApi('winners', 'POST', {
+                ...action.payload,
+                time: finalTimeInThisRace,
+            }).then((response) => {
+                if (response.ok) return;
+                callApi(`winners/${action.payload.id}`, 'GET').then(
+                    (response) => {
+                        if (!response.ok) return;
+                        response.json().then((data) => {
+                            callApi(`winners/${action.payload.id}`, 'PUT', {
+                                wins: data.wins + 1,
+                                time:
+                                    finalTimeInThisRace < data.time
+                                        ? finalTimeInThisRace
+                                        : data.time,
+                            });
+                        });
+                    }
+                );
+            });
+        },
     },
 });
 
@@ -160,5 +198,7 @@ export const {
     startEngineSuccess,
     stopEngine,
     resetCar,
+    startRace,
+    carFinished,
 } = garageSlice.actions;
 export default garageSlice.reducer;

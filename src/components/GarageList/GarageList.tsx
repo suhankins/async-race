@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../store/hooks/useAppDispatch';
 import {
     getGarageFetch,
     setPage,
+    startRace,
 } from '../../store/features/garage/garageSlice';
 
 const GarageList: FC = () => {
@@ -33,6 +34,12 @@ const GarageList: FC = () => {
             totalItems={totalItems}
             itemsPerPage={itemsPerPage}
         >
+            <button
+                className="btn btn-primary"
+                onClick={() => dispatch(startRace())}
+            >
+                Start race!!!
+            </button>
             <ul>
                 {cars.map((car) => (
                     <li key={car.id}>

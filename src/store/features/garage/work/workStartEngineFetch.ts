@@ -1,6 +1,11 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { call, put } from 'redux-saga/effects';
-import { stopEngine, resetCar, startEngineSuccess } from '../garageSlice';
+import {
+    stopEngine,
+    resetCar,
+    startEngineSuccess,
+    carFinished,
+} from '../garageSlice';
 import { callApi } from '../../../../utils/callApi';
 
 export interface EngineStartResponse {
@@ -28,12 +33,23 @@ export function* workStartEngineFetch(action: PayloadAction<number>) {
                 distance: engineStartResponse.distance,
             })
         );
-        yield call(() =>
+        const result: Response = yield call(() =>
             callApi(`engine`, 'PATCH', {
                 id: action.payload,
                 status: 'drive',
             })
         );
+        if (result.ok) {
+            yield put(
+                carFinished({
+                    id: action.payload,
+                    wins: 1,
+                    time:
+                        engineStartResponse.distance /
+                        engineStartResponse.velocity,
+                })
+            );
+        }
         yield put(stopEngine(action.payload));
     } catch (e) {
         console.error(e);
