@@ -21,8 +21,8 @@ export function* workGetWinnersFetch() {
             callApi('winners', 'GET', {
                 _limit: itemsPerPage,
                 _page: currentPage + 1,
-                sortBy,
-                sortOrder,
+                _sort: sortBy,
+                _order: sortOrder,
             })
         );
         if (!winnersRequest.ok) throw new Error('Failed to fetch winners');
