@@ -20,7 +20,7 @@ export function Modal() {
                 display: isOpen ? 'flex' : 'none',
             }}
         >
-            <dialog open={isOpen} className="modal-content">
+            <dialog open={isOpen} className={`modal-content ${styles.modal}`}>
                 <div className="modal-header">
                     <button
                         type="button"
@@ -29,7 +29,9 @@ export function Modal() {
                         onClick={closeModal}
                     />
                 </div>
-                <div className="modal-body">{content}</div>
+                <div className={`modal-body ${styles.textGradient}`}>
+                    {content}
+                </div>
             </dialog>
         </div>
     );
