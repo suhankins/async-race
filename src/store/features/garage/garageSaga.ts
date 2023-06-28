@@ -1,5 +1,6 @@
 import { takeEvery, takeLatest } from 'redux-saga/effects';
 import {
+    carFinished,
     createCarFetch,
     createCarSuccess,
     deleteCarFetch,
@@ -20,6 +21,7 @@ import { workCreateCarFetch } from './work/workCreateCarFetch';
 import { workGenerateRandomCars } from './work/workGenerateRandomCars';
 import { workStartEngineFetch } from './work/workStartEngineFetch';
 import { workStartRace } from './work/workStartRace';
+import { workCarFinished } from './work/workCarFInished';
 
 export function* garageSaga() {
     yield takeLatest(getGarageFetch, workGetGarageFetch);
@@ -28,6 +30,7 @@ export function* garageSaga() {
     yield takeLatest(setPage, workGetGarageFetch);
     yield takeLatest(startRace, workStartRace);
 
+    yield takeEvery(carFinished, workCarFinished);
     yield takeEvery(startEngineFetch, workStartEngineFetch);
     yield takeEvery(generateRandomCars, workGenerateRandomCars);
     yield takeEvery(deleteCarFetch, workDeleteCarFetch);

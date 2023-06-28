@@ -2,7 +2,6 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IStateWithPages } from '../IStateWithPages';
 import { ICar } from '../../ICar';
 import { IWinnersEntry } from '../winners/winnersSlice';
-import { callApi } from '../../../utils/callApi';
 
 export interface IGarageEntry extends ICar {
     isEngineStarted: boolean;
@@ -142,38 +141,11 @@ const garageSlice = createSlice({
         },
         startRace(state) {
             state.isInRace = true;
-            state.cars.forEach((car) => {
-                car.isEngineStarted = true;
-            });
         },
-        carFinished(state, action: PayloadAction<IWinnersEntry>) {
-            if (!state.isInRace) return;
-            // TODO: Modal like "Car {name} finished with {time} seconds"
+        stopRace(state) {
             state.isInRace = false;
-
-            // TODO: Refactor this callback hell
-            const finalTimeInThisRace = action.payload.time / 1000;
-            callApi('winners', 'POST', {
-                ...action.payload,
-                time: finalTimeInThisRace,
-            }).then((response) => {
-                if (response.ok) return;
-                callApi(`winners/${action.payload.id}`, 'GET').then(
-                    (response) => {
-                        if (!response.ok) return;
-                        response.json().then((data) => {
-                            callApi(`winners/${action.payload.id}`, 'PUT', {
-                                wins: data.wins + 1,
-                                time:
-                                    finalTimeInThisRace < data.time
-                                        ? finalTimeInThisRace
-                                        : data.time,
-                            });
-                        });
-                    }
-                );
-            });
         },
+        carFinished(_state, _action: PayloadAction<IWinnersEntry>) {},
     },
 });
 
@@ -201,6 +173,7 @@ export const {
     stopEngine,
     resetCar,
     startRace,
+    stopRace,
     carFinished,
 } = garageSlice.actions;
 export default garageSlice.reducer;

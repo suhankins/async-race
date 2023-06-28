@@ -35,6 +35,7 @@ const GarageList: FC = () => {
             itemsPerPage={itemsPerPage}
         >
             <button
+                type="button"
                 className="btn btn-primary"
                 onClick={() => dispatch(startRace())}
             >

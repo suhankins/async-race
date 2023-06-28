@@ -4,6 +4,7 @@ import createSagaMiddleware from 'redux-saga';
 import rootSaga from './rootSaga';
 import viewsSlice from './features/views/viewsSlice';
 import winnersSlice from './features/winners/winnersSlice';
+import modalSlice from './features/modal/modalSlice';
 
 const saga = createSagaMiddleware();
 
@@ -13,6 +14,7 @@ export const store = configureStore({
         garage: garageSlice,
         winners: winnersSlice,
         views: viewsSlice,
+        modal: modalSlice,
     },
 });
 
