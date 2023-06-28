@@ -4,6 +4,12 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { callApi } from '../../../../utils/callApi';
 import { getRandomWord } from '../../../../utils/getRandomWord';
 
+function generateHexComponent() {
+    return Math.floor(Math.random() * 0xff)
+        .toString(16)
+        .padStart(2, '0');
+}
+
 export function* workGenerateRandomCars(action: PayloadAction<number>) {
     try {
         for (let i = 0; i < action.payload; i++) {
@@ -11,7 +17,10 @@ export function* workGenerateRandomCars(action: PayloadAction<number>) {
                 callApi(`garage`, 'POST', {
                     name: getRandomWord() + ' ' + getRandomWord(),
                     color:
-                        '#' + Math.floor(Math.random() * 0xffffff).toString(16),
+                        '#' +
+                        generateHexComponent() +
+                        generateHexComponent() +
+                        generateHexComponent(),
                 })
             );
             if (!createRequest.ok) throw new Error('Failed to create car');
