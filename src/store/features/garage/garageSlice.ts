@@ -35,11 +35,10 @@ const setCarLoading = (state: IGarageState, id: number, loading: boolean) => {
     if (car) car.loading = loading;
 };
 
-const setCarLoadingActionFactory = (loading: boolean) => {
-    return (
-        state: IGarageState,
-        action: PayloadAction<number> | PayloadAction<ICar>
-    ) => {
+const setCarLoadingActionFactory = <T extends ICar | number>(
+    loading: boolean
+) => {
+    return (state: IGarageState, action: PayloadAction<T>) => {
         const id =
             typeof action.payload === 'number'
                 ? action.payload
@@ -72,7 +71,7 @@ const garageSlice = createSlice({
         getGarageFailure(state) {
             state.loading = false;
         },
-        getCarFetch: setCarLoadingActionFactory(true),
+        getCarFetch: setCarLoadingActionFactory<number>(true),
         getCarSuccess(state, action: PayloadAction<ICar>) {
             const car = findCar(state, action.payload.id);
             if (car) {
@@ -81,11 +80,11 @@ const garageSlice = createSlice({
                 car.color = action.payload.color;
             }
         },
-        getCarFailure: setCarLoadingActionFactory(false),
-        deleteCarFetch: setCarLoadingActionFactory(true),
-        deleteCarFailure: setCarLoadingActionFactory(false),
+        getCarFailure: setCarLoadingActionFactory<number>(false),
+        deleteCarFetch: setCarLoadingActionFactory<number>(true),
+        deleteCarFailure: setCarLoadingActionFactory<number>(false),
         deleteCarSuccess(_state) {},
-        updateCarFetch: setCarLoadingActionFactory(true),
+        updateCarFetch: setCarLoadingActionFactory<ICar>(true),
         updateCarSuccess(state, action: PayloadAction<ICar>) {
             const car = findCar(state, action.payload.id);
             if (car) {
@@ -94,7 +93,7 @@ const garageSlice = createSlice({
                 car.color = action.payload.color;
             }
         },
-        updateCarFailure: setCarLoadingActionFactory(false),
+        updateCarFailure: setCarLoadingActionFactory<number>(false),
         createCarFetch(state, _action: PayloadAction<ICar>) {
             state.loading = true;
         },
