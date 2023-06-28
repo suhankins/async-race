@@ -6,18 +6,19 @@
  * @returns {Promise<Response>}
  *
  * @example
- * const response: Response = await getApi('garage', 'GET', {limit: 7});
+ * const response: Response = await getApi('garage', 'GET', {_page: 1, _limit: 7});
  */
 export async function callApi(
     resource: string,
     method: string = 'GET',
-    params?: Object
+    params?: Object,
+    signal?: AbortSignal
 ): Promise<Response> {
     const url = new URL(`http://localhost:3000/${resource}`);
-    const requestInit: RequestInit = { method };
+    const requestInit: RequestInit = { method, signal };
 
     if (params) {
-        if (method === 'GET' || method === 'DELETE') {
+        if (method === 'GET' || method === 'PATCH') {
             for (const [key, value] of Object.entries(params)) {
                 url.searchParams.append(key, value as string);
             }

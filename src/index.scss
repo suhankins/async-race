@@ -1,0 +1,14 @@
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+
+:root {
+    --bs-modal-color: #222;
+    --bs-modal-border-color: #00ff99;
+    --bs-modal-border-width: 2px;
+    --bs-modal-border-radius: 0.5rem;
+    --bs-modal-bg: #eee;
+    --bs-modal-header-padding: 0.25rem;
+    --bs-modal-header-border-width: 2px;
+    --bs-modal-header-border-color: #aaaaaa;
+    --bs-modal-inner-border-radius: 2px;
+    --bs-modal-padding: 0.5rem;
+}

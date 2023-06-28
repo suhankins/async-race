@@ -1,23 +1,23 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IStateWithPages } from '../IStateWithPages';
 import { ICar } from '../../ICar';
+import { IWinnersEntry } from '../winners/winnersSlice';
 
 export interface IGarageEntry extends ICar {
     isEngineStarted: boolean;
     loading: boolean;
-    /**
-     * Position on the track.
-     * Should be a number between 0 and 1.
-     */
-    position: number;
+    distance: number;
+    velocity: number;
 }
 
 export interface IGarageState extends IStateWithPages {
+    isInRace: boolean;
     loading: boolean;
     cars: IGarageEntry[];
 }
 
 const initialState: IGarageState = {
+    isInRace: false,
     loading: true,
     currentPage: 0,
     totalItems: 0,
@@ -25,9 +25,25 @@ const initialState: IGarageState = {
     cars: [],
 };
 
+const findCar = (state: IGarageState, id: number) => {
+    return state.cars.find((car) => car.id === id);
+};
+
 const setCarLoading = (state: IGarageState, id: number, loading: boolean) => {
-    const car = state.cars.find((car) => car.id === id);
+    const car = findCar(state, id);
     if (car) car.loading = loading;
+};
+
+const setCarLoadingActionFactory = <T extends ICar | number>(
+    loading: boolean
+) => {
+    return (state: IGarageState, action: PayloadAction<T>) => {
+        const id =
+            typeof action.payload === 'number'
+                ? action.payload
+                : action.payload.id;
+        setCarLoading(state, id, loading);
+    };
 };
 
 const garageSlice = createSlice({
@@ -47,47 +63,36 @@ const garageSlice = createSlice({
                 ...car,
                 loading: false,
                 isEngineStarted: false,
-                position: 0,
+                distance: 0,
+                velocity: 0,
             }));
         },
         getGarageFailure(state) {
             state.loading = false;
         },
-        getCarFetch(state, action: PayloadAction<number>) {
-            setCarLoading(state, action.payload, true);
-        },
+        getCarFetch: setCarLoadingActionFactory<number>(true),
         getCarSuccess(state, action: PayloadAction<ICar>) {
-            const car = state.cars.find((car) => car.id === action.payload.id);
+            const car = findCar(state, action.payload.id);
             if (car) {
                 car.loading = false;
                 car.name = action.payload.name;
                 car.color = action.payload.color;
             }
         },
-        getCarFailure(state, action: PayloadAction<number>) {
-            setCarLoading(state, action.payload, false);
-        },
-        deleteCarFetch(state, action: PayloadAction<number>) {
-            setCarLoading(state, action.payload, true);
-        },
-        deleteCarFailure(state, action: PayloadAction<number>) {
-            setCarLoading(state, action.payload, false);
-        },
+        getCarFailure: setCarLoadingActionFactory<number>(false),
+        deleteCarFetch: setCarLoadingActionFactory<number>(true),
+        deleteCarFailure: setCarLoadingActionFactory<number>(false),
         deleteCarSuccess(_state) {},
-        updateCarFetch(state, action: PayloadAction<ICar>) {
-            setCarLoading(state, action.payload.id, true);
-        },
+        updateCarFetch: setCarLoadingActionFactory<ICar>(true),
         updateCarSuccess(state, action: PayloadAction<ICar>) {
-            const car = state.cars.find((car) => car.id === action.payload.id);
+            const car = findCar(state, action.payload.id);
             if (car) {
                 car.loading = false;
                 car.name = action.payload.name;
                 car.color = action.payload.color;
             }
         },
-        updateCarFailure(state, action: PayloadAction<number>) {
-            setCarLoading(state, action.payload, false);
-        },
+        updateCarFailure: setCarLoadingActionFactory<number>(false),
         createCarFetch(state, _action: PayloadAction<ICar>) {
             state.loading = true;
         },
@@ -103,6 +108,44 @@ const garageSlice = createSlice({
         setPage(state, action: PayloadAction<number>) {
             state.currentPage = action.payload;
         },
+        startEngineFetch(_state, _action: PayloadAction<number>) {},
+        startEngineSuccess(
+            state,
+            action: PayloadAction<Partial<IGarageEntry>>
+        ) {
+            const car = findCar(state, action.payload.id ?? 0);
+            if (!car) {
+                console.error(
+                    'startEngineSuccess: car not found',
+                    action.payload,
+                    car
+                );
+                return;
+            }
+            console.log('startEngineSuccess', action.payload);
+            car.isEngineStarted = true;
+            car.velocity = action.payload.velocity ?? 0;
+            car.distance = action.payload.distance ?? 0;
+        },
+        stopEngine(state, action: PayloadAction<number>) {
+            const car = findCar(state, action.payload);
+            if (car) car.isEngineStarted = false;
+        },
+        resetCar(state, action: PayloadAction<number>) {
+            const car = findCar(state, action.payload);
+            if (car) {
+                car.isEngineStarted = false;
+                car.distance = 0;
+                car.velocity = 0;
+            }
+        },
+        startRace(state) {
+            state.isInRace = true;
+        },
+        stopRace(state) {
+            state.isInRace = false;
+        },
+        carFinished(_state, _action: PayloadAction<IWinnersEntry>) {},
     },
 });
 
@@ -125,5 +168,12 @@ export const {
     getCarSuccess,
     setTotalItems,
     setPage,
+    startEngineFetch,
+    startEngineSuccess,
+    stopEngine,
+    resetCar,
+    startRace,
+    stopRace,
+    carFinished,
 } = garageSlice.actions;
 export default garageSlice.reducer;

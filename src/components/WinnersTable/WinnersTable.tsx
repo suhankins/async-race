@@ -8,6 +8,9 @@ import {
 import { useAppDispatch } from '../../store/hooks/useAppDispatch';
 import { useAppSelector } from '../../store/hooks/useAppSelector';
 import Pagination from '../Pagination/Pagination';
+import { CarIcon } from '../CarIcon/CarIcon';
+
+import styles from './WinnersTable.module.scss';
 
 export const WinnersTable = () => {
     const {
@@ -70,7 +73,12 @@ export const WinnersTable = () => {
                     {entries.map((entry, index) => (
                         <tr key={entry.id}>
                             <td>{index + currentPage * itemsPerPage + 1}</td>
-                            <td>{entry.color}</td>
+                            <td>
+                                <CarIcon
+                                    className={styles.carIcon}
+                                    color={entry.color}
+                                />
+                            </td>
                             <td>{entry.name}</td>
                             <td>{entry.wins}</td>
                             <td>{entry.time}</td>
