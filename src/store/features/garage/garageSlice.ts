@@ -26,9 +26,26 @@ const initialState: IGarageState = {
     cars: [],
 };
 
+const findCar = (state: IGarageState, id: number) => {
+    return state.cars.find((car) => car.id === id);
+};
+
 const setCarLoading = (state: IGarageState, id: number, loading: boolean) => {
-    const car = state.cars.find((car) => car.id === id);
+    const car = findCar(state, id);
     if (car) car.loading = loading;
+};
+
+const setCarLoadingActionFactory = (loading: boolean) => {
+    return (
+        state: IGarageState,
+        action: PayloadAction<number> | PayloadAction<ICar>
+    ) => {
+        const id =
+            typeof action.payload === 'number'
+                ? action.payload
+                : action.payload.id;
+        setCarLoading(state, id, loading);
+    };
 };
 
 const garageSlice = createSlice({
@@ -55,41 +72,29 @@ const garageSlice = createSlice({
         getGarageFailure(state) {
             state.loading = false;
         },
-        getCarFetch(state, action: PayloadAction<number>) {
-            setCarLoading(state, action.payload, true);
-        },
+        getCarFetch: setCarLoadingActionFactory(true),
         getCarSuccess(state, action: PayloadAction<ICar>) {
-            const car = state.cars.find((car) => car.id === action.payload.id);
+            const car = findCar(state, action.payload.id);
             if (car) {
                 car.loading = false;
                 car.name = action.payload.name;
                 car.color = action.payload.color;
             }
         },
-        getCarFailure(state, action: PayloadAction<number>) {
-            setCarLoading(state, action.payload, false);
-        },
-        deleteCarFetch(state, action: PayloadAction<number>) {
-            setCarLoading(state, action.payload, true);
-        },
-        deleteCarFailure(state, action: PayloadAction<number>) {
-            setCarLoading(state, action.payload, false);
-        },
+        getCarFailure: setCarLoadingActionFactory(false),
+        deleteCarFetch: setCarLoadingActionFactory(true),
+        deleteCarFailure: setCarLoadingActionFactory(false),
         deleteCarSuccess(_state) {},
-        updateCarFetch(state, action: PayloadAction<ICar>) {
-            setCarLoading(state, action.payload.id, true);
-        },
+        updateCarFetch: setCarLoadingActionFactory(true),
         updateCarSuccess(state, action: PayloadAction<ICar>) {
-            const car = state.cars.find((car) => car.id === action.payload.id);
+            const car = findCar(state, action.payload.id);
             if (car) {
                 car.loading = false;
                 car.name = action.payload.name;
                 car.color = action.payload.color;
             }
         },
-        updateCarFailure(state, action: PayloadAction<number>) {
-            setCarLoading(state, action.payload, false);
-        },
+        updateCarFailure: setCarLoadingActionFactory(false),
         createCarFetch(state, _action: PayloadAction<ICar>) {
             state.loading = true;
         },
@@ -110,9 +115,7 @@ const garageSlice = createSlice({
             state,
             action: PayloadAction<Partial<IGarageEntry>>
         ) {
-            const car = state.cars.find((car) => {
-                return car.id === action.payload.id;
-            });
+            const car = findCar(state, action.payload.id ?? 0);
             if (!car) {
                 console.error(
                     'startEngineSuccess: car not found',
@@ -127,11 +130,11 @@ const garageSlice = createSlice({
             car.distance = action.payload.distance ?? 0;
         },
         stopEngine(state, action: PayloadAction<number>) {
-            const car = state.cars.find((car) => car.id === action.payload);
+            const car = findCar(state, action.payload);
             if (car) car.isEngineStarted = false;
         },
         resetCar(state, action: PayloadAction<number>) {
-            const car = state.cars.find((car) => car.id === action.payload);
+            const car = findCar(state, action.payload);
             if (car) {
                 car.isEngineStarted = false;
                 car.distance = 0;
