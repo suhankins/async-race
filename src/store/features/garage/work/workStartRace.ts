@@ -16,8 +16,6 @@ export function* workStartRace() {
         console.log('workStartRace', cars);
         for (const car of cars) {
             yield put(resetCar(car.id));
-        }
-        for (const car of cars) {
             yield put(startEngineFetch(car.id));
         }
     } catch (e) {
