@@ -6,6 +6,7 @@ import {
     generateRandomCars,
 } from '../../store/features/garage/garageSlice';
 import { useAppSelector } from '../../store/hooks/useAppSelector';
+import styles from './AddNewCar.module.scss';
 
 export function AddNewCar() {
     const [name, setName] = useState('');
@@ -38,23 +39,32 @@ export function AddNewCar() {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <div>
             <h1>Add New Car</h1>
-            <input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                type="text"
-                placeholder="Car Name"
-                required
-            />
-            <OpenPaletteButton
-                defaultValue={color}
-                updateColor={(value) => setColor(value)}
-            />
-            <button type="submit">Add</button>
-            <button type="button" onClick={handleGenerate}>
+            <form onSubmit={handleSubmit} className={styles.addNewCar}>
+                <input
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="form-control"
+                    type="text"
+                    placeholder="Car Name"
+                    required
+                />
+                <OpenPaletteButton
+                    defaultValue={color}
+                    updateColor={(value) => setColor(value)}
+                />
+                <button type="submit" className="btn btn-primary">
+                    Add
+                </button>
+            </form>
+            <button
+                type="button"
+                onClick={handleGenerate}
+                className="btn btn-secondary"
+            >
                 Generate 100 random cars
             </button>
-        </form>
+        </div>
     );
 }

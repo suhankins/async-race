@@ -8,18 +8,20 @@ export default function ViewSwitch({ views }: { views: IView[] }) {
     const dispatch = useAppDispatch();
 
     return (
-        <div>
-            <div>
+        <>
+            <header className="btn-group">
                 {views.map((view, index) => (
                     <button
                         key={view.name}
                         onClick={() => dispatch(setCurrentViewIndex(index))}
+                        className="btn btn-outline-primary"
+                        disabled={index === currentViewIndex}
                     >
                         {view.name}
                     </button>
                 ))}
-            </div>
-            <div>{views[currentViewIndex].component}</div>
-        </div>
+            </header>
+            <main>{views[currentViewIndex].component}</main>
+        </>
     );
 }

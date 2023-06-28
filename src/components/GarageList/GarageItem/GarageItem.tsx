@@ -37,46 +37,54 @@ const GarageItem: FC<IGarageEntry> = ({
 
     return (
         <div>
-            <button
-                onClick={() => {
-                    dispatch(deleteCarFetch(id));
-                }}
-                type="button"
-            >
-                Delete
-            </button>
-            <input
-                defaultValue={name}
-                placeholder="Car name"
-                onBlur={(e) => {
-                    dispatch(
-                        updateCarFetch({ id, name: e.target.value, color })
-                    );
-                }}
-            />
-            <OpenPaletteButton
-                defaultValue={color}
-                updateColor={(value) => {
-                    dispatch(updateCarFetch({ id, name, color: value }));
-                }}
-            />
-            <div className={styles.raceTrackContainer}>
+            <div className={styles.carForm}>
                 <button
-                    type="button"
-                    className="btn btn-success"
                     onClick={() => {
-                        dispatch(startEngineFetch(id));
+                        dispatch(deleteCarFetch(id));
                     }}
-                >
-                    Start
-                </button>
-                <button
                     type="button"
                     className="btn btn-danger"
-                    onClick={() => dispatch(resetCar(id))}
                 >
-                    Stop
+                    Delete
                 </button>
+                <input
+                    defaultValue={name}
+                    placeholder="Car name"
+                    className={`form-control ${styles.nameInput}`}
+                    onBlur={(e) => {
+                        dispatch(
+                            updateCarFetch({ id, name: e.target.value, color })
+                        );
+                    }}
+                />
+                <OpenPaletteButton
+                    defaultValue={color}
+                    updateColor={(value) => {
+                        dispatch(updateCarFetch({ id, name, color: value }));
+                    }}
+                />
+            </div>
+            <div className={styles.raceTrackContainer}>
+                <div className={`input-group ${styles.inputGroup}`}>
+                    <button
+                        type="button"
+                        className="btn btn-outline-success"
+                        onClick={() => {
+                            dispatch(startEngineFetch(id));
+                        }}
+                        disabled={isEngineStarted}
+                    >
+                        Start
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-outline-danger"
+                        onClick={() => dispatch(resetCar(id))}
+                        disabled={!isEngineStarted}
+                    >
+                        Stop
+                    </button>
+                </div>
                 <div className={styles.raceTrack}>
                     <div className={styles.carContainer}>
                         <CarIcon

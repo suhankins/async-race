@@ -10,7 +10,11 @@ export function OpenPaletteButton({
     defaultValue,
     updateColor,
 }: OpenPaletteButtonProps) {
-    if (defaultValue === undefined) {
+    if (
+        defaultValue === undefined ||
+        defaultValue === '' ||
+        defaultValue === null
+    ) {
         defaultValue = '#ff0000';
     }
 
@@ -18,7 +22,7 @@ export function OpenPaletteButton({
         <div className={styles.wrapper}>
             <button
                 type="button"
-                className={styles.openPaletteButton}
+                className={`btn btn-outline-primary ${styles.openPaletteButton}`}
                 aria-label="Open color picker"
             >
                 <div style={{ backgroundColor: defaultValue }} />

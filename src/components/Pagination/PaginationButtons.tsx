@@ -12,12 +12,14 @@ export function PaginationButtons({
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     return (
-        <div>
+        <div className="input-group">
             {new Array(totalPages).fill(null).map((_, page) => (
                 <button
                     type="button"
                     key={page}
                     onClick={() => handleSetPage(page)}
+                    className="btn btn-outline-secondary"
+                    disabled={page === currentPage}
                 >
                     {page + 1} {page === currentPage && '(current)'}
                 </button>

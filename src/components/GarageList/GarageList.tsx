@@ -8,9 +8,10 @@ import {
     setPage,
     startRace,
 } from '../../store/features/garage/garageSlice';
+import styles from './GarageList.module.scss';
 
 const GarageList: FC = () => {
-    const { cars, loading, currentPage, totalItems, itemsPerPage } =
+    const { cars, loading, currentPage, totalItems, itemsPerPage, isInRace } =
         useAppSelector((state) => state.garage);
     const dispatch = useAppDispatch();
 
@@ -38,10 +39,11 @@ const GarageList: FC = () => {
                 type="button"
                 className="btn btn-primary"
                 onClick={() => dispatch(startRace())}
+                disabled={isInRace}
             >
                 Start race!!!
             </button>
-            <ul>
+            <ul className={styles.listOfCars}>
                 {cars.map((car) => (
                     <li key={car.id}>
                         <GarageItem {...car} />
