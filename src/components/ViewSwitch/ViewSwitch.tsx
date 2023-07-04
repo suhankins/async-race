@@ -2,6 +2,7 @@ import { IView } from '../../views/IView';
 import { setCurrentViewIndex } from '../../store/features/views/viewsSlice';
 import { useAppDispatch } from '../../store/hooks/useAppDispatch';
 import { useAppSelector } from '../../store/hooks/useAppSelector';
+import styles from './ViewSwitch.module.scss';
 
 export default function ViewSwitch({ views }: { views: IView[] }) {
     const { currentViewIndex } = useAppSelector((state) => state.views);
@@ -21,7 +22,9 @@ export default function ViewSwitch({ views }: { views: IView[] }) {
                     </button>
                 ))}
             </header>
-            <main>{views[currentViewIndex].component}</main>
+            <main className={styles.limitedWidth}>
+                {views[currentViewIndex].component}
+            </main>
         </>
     );
 }
