@@ -35,14 +35,14 @@ export function AddNewCar() {
     );
 
     return (
-        <div>
+        <div className={styles.addNewCar}>
             <h1>Add New Car</h1>
-            <form onSubmit={handleSubmit} className={styles.addNewCar}>
+            <form onSubmit={handleSubmit} className={styles.addNewCarForm}>
                 <input
                     disabled={loading}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="form-control"
+                    className={`form-control ${styles.size3}`}
                     type="text"
                     placeholder="Car Name"
                     required
@@ -54,7 +54,7 @@ export function AddNewCar() {
                 />
                 <button
                     type="submit"
-                    className="btn btn-primary"
+                    className={`btn btn-primary ${styles.size1}`}
                     disabled={loading}
                 >
                     Add
