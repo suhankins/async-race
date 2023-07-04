@@ -37,7 +37,7 @@ const GarageList: FC = () => {
         >
             <button
                 type="button"
-                className="btn btn-primary"
+                className={`btn btn-primary ${styles.startRace}`}
                 onClick={() => dispatch(startRace())}
                 disabled={isInRace}
             >
