@@ -22,7 +22,14 @@ export default function Pagination({
         getEntries();
     }, [currentPage, getEntries]);
 
-    if (loading) return <p>Loading...</p>;
+    if (loading)
+        return (
+            <div>
+                <h1>
+                    Total: <span className="placeholder col-2"></span>
+                </h1>
+            </div>
+        );
 
     return (
         <div>
