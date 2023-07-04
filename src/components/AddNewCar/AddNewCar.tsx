@@ -6,6 +6,7 @@ import {
     generateRandomCars,
 } from '../../store/features/garage/garageSlice';
 import { useAppSelector } from '../../store/hooks/useAppSelector';
+import styles from './AddNewCar.module.scss';
 
 export function AddNewCar() {
     const [name, setName] = useState('');
@@ -33,28 +34,40 @@ export function AddNewCar() {
         [dispatch, name, color]
     );
 
-    if (loading) {
-        return <p>TODO: Skeleton?</p>;
-    }
-
     return (
-        <form onSubmit={handleSubmit}>
+        <div className={styles.addNewCar}>
             <h1>Add New Car</h1>
-            <input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                type="text"
-                placeholder="Car Name"
-                required
-            />
-            <OpenPaletteButton
-                defaultValue={color}
-                updateColor={(value) => setColor(value)}
-            />
-            <button type="submit">Add</button>
-            <button type="button" onClick={handleGenerate}>
+            <form onSubmit={handleSubmit} className={styles.addNewCarForm}>
+                <input
+                    disabled={loading}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className={`form-control ${styles.size3}`}
+                    type="text"
+                    placeholder="Car Name"
+                    required
+                />
+                <OpenPaletteButton
+                    disabled={loading}
+                    defaultValue={color}
+                    updateColor={(value) => setColor(value)}
+                />
+                <button
+                    type="submit"
+                    className={`btn btn-primary ${styles.size1}`}
+                    disabled={loading}
+                >
+                    Add
+                </button>
+            </form>
+            <button
+                type="button"
+                onClick={handleGenerate}
+                className="btn btn-secondary"
+                disabled={loading}
+            >
                 Generate 100 random cars
             </button>
-        </form>
+        </div>
     );
 }

@@ -17,6 +17,10 @@ export function* workCarFinished(action: PayloadAction<IWinnersEntry>) {
     console.log('workCarFinished: isInRace');
     const finalTimeInThisRace = action.payload.time / 1000;
 
+    const car = state.cars.find((car) => car.id === action.payload.id);
+    if (car === undefined) return;
+    yield put(openModal(`Car ${car?.name} won!`));
+
     try {
         const addWinnerResponse: Response = yield callApi('winners', 'POST', {
             ...action.payload,
@@ -38,9 +42,6 @@ export function* workCarFinished(action: PayloadAction<IWinnersEntry>) {
                     ? finalTimeInThisRace
                     : winner.time,
         });
-
-        const car = state.cars.find((car) => car.id === action.payload.id);
-        yield put(openModal(`Car ${car?.name} won!`));
     } catch (e) {
         console.error(e);
     }
