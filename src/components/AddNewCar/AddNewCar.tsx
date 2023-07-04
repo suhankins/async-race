@@ -34,15 +34,12 @@ export function AddNewCar() {
         [dispatch, name, color]
     );
 
-    if (loading) {
-        return <p>TODO: Skeleton?</p>;
-    }
-
     return (
         <div>
             <h1>Add New Car</h1>
             <form onSubmit={handleSubmit} className={styles.addNewCar}>
                 <input
+                    disabled={loading}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="form-control"
@@ -51,10 +48,15 @@ export function AddNewCar() {
                     required
                 />
                 <OpenPaletteButton
+                    disabled={loading}
                     defaultValue={color}
                     updateColor={(value) => setColor(value)}
                 />
-                <button type="submit" className="btn btn-primary">
+                <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={loading}
+                >
                     Add
                 </button>
             </form>
@@ -62,6 +64,7 @@ export function AddNewCar() {
                 type="button"
                 onClick={handleGenerate}
                 className="btn btn-secondary"
+                disabled={loading}
             >
                 Generate 100 random cars
             </button>
