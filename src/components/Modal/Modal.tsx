@@ -22,12 +22,9 @@ export function Modal() {
         >
             <dialog open={isOpen} className={`modal-content ${styles.modal}`}>
                 <div className="modal-header">
-                    <button
-                        type="button"
-                        className="btn-close"
-                        aria-label="Close"
-                        onClick={closeModal}
-                    />
+                    <a href="#" className={styles.close} onClick={closeModal}>
+                        Close
+                    </a>
                 </div>
                 <div className={`modal-body ${styles.textGradient}`}>
                     {content}
