@@ -80,7 +80,7 @@ const GarageItem: FC<IGarageEntry> = ({
                         type="button"
                         className="btn btn-outline-danger"
                         onClick={() => dispatch(resetCar(id))}
-                        disabled={!isEngineStarted}
+                        // Stop button is always enabled because it also resets the car
                     >
                         Stop
                     </button>
